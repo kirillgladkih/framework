@@ -1,0 +1,19 @@
+{
+    "name": "kill/framework",
+    "autoload": {
+        "psr-4": {
+            "Core\\": "core/",
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "php" : ">=8.0",
+        "vlucas/phpdotenv": "^5.4",
+        "symfony/var-dumper": "^6.0",
+        "laminas/laminas-diactoros": "^2.9"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "phpunit/phpunit": "^9.5"
+    }
+}
