@@ -2,8 +2,8 @@
 
 namespace Core\Routing\SimpleRouter;
 
-use Core\Routing\Iterfaces\IRoute;
-use Core\Routing\Iterfaces\IRouteCollection;
+use Core\Routing\Interfaces\IRoute;
+use Core\Routing\Interfaces\IRouteCollection;
 
 class RouteCollection implements IRouteCollection
 {

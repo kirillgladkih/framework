@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Routing\Iterfaces;
+namespace Core\Routing\Interfaces;
 
 interface IRoute
 {

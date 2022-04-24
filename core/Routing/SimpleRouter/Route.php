@@ -2,7 +2,7 @@
 
 namespace Core\Routing\SimpleRouter;
 
-use Core\Routing\Iterfaces\IRoute;
+use Core\Routing\Interfaces\IRoute;
 
 class Route implements IRoute
 {

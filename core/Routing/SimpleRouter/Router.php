@@ -2,10 +2,10 @@
 
 namespace Core\Routing\SimpleRouter;
 
-use Core\Routing\Iterfaces\IMatcher;
-use Core\Routing\Iterfaces\IRoute;
-use Core\Routing\Iterfaces\IRouteCollection;
-use Core\Routing\Iterfaces\IRouter;
+use Core\Routing\Interfaces\IMatcher;
+use Core\Routing\Interfaces\IRoute;
+use Core\Routing\Interfaces\IRouteCollection;
+use Core\Routing\Interfaces\IRouter;
 use Psr\Http\Message\RequestInterface;
 
 class Router implements IRouter
