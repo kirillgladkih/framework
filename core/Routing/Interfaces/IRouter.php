@@ -18,64 +18,64 @@ interface IRouter
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function get(string $path, mixed $handler, array $rules) : void;
+    public function get(string $path, mixed $handler, array $rules = []) : void;
     /**
      * Add head route in colletion
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function head(string $path, mixed $handler, array $rules) : void;
+    public function head(string $path, mixed $handler, array $rules = []) : void;
     /**
      * Add post route in colletion
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function post(string $path, mixed $handler, array $rules) : void;
+    public function post(string $path, mixed $handler, array $rules = []) : void;
     /**
      * Add put route in collection
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function put(string $path, mixed $handler, array $rules) : void;
+    public function put(string $path, mixed $handler, array $rules = []) : void;
     /**
      * Add delete route in collection
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function delete(string $path, mixed $handler, array $rules) : void;
+    public function delete(string $path, mixed $handler, array $rules = []) : void;
     /**
      * Add option route in colletion
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function options(string $path, mixed $handler, array $rules) : void;
+    public function options(string $path, mixed $handler, array $rules = []) : void;
     /**
      * Add patch route in collection
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function patch(string $path, mixed $handler, array $rules) : void;
+    public function patch(string $path, mixed $handler, array $rules = []) : void;
     /**
      * Matching in collection
      *

@@ -11,3 +11,7 @@ ini_set("error_reporting", E_ALL);
 $request = ServerRequestFactory::fromGlobals();
 
 $router = new Router();
+
+$router->post("/test", "");
+
+$router->match($request);

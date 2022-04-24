@@ -38,7 +38,7 @@ class Route implements IRoute
      * @param mixed $handler
      * @param array $rules
      */
-    public function __construct(string $path, array $methods = self::METHODS, mixed $handler, array $rules = [])
+    public function __construct(string $path, mixed $handler, array $rules = [], array $methods = self::METHODS)
     {
         $this->path = $path;
         $this->methods = $methods;

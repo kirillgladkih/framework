@@ -9,8 +9,9 @@ interface IMatcher
 {
     /**
      * Routes matching
-     *
      * @param RequestInterface $request
+     *
+     * @throws \Core\Request\Exception\IRequestExceptiion
      * @return IRoute
      */
     public function match(RequestInterface $request) : IRoute;

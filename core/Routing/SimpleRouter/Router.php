@@ -29,6 +29,7 @@ class Router implements IRouter
     {
         $this->initCollection(new RouteCollection());
         $this->initMatcher(new Matcher());
+        $this->matcher->initCollection($this->routeCollection);
     }
     /**
      * Add route in collection
@@ -45,12 +46,12 @@ class Router implements IRouter
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function get(string $path, mixed $handler, array $rules) : void
+    public function get(string $path, mixed $handler, array $rules = []) : void
     {
-        $route = new Route($path, ["GET"], $handler, $rules);
+        $route = new Route($path, $handler, $rules, ["GET"]);
 
         $this->routeCollection->addRoute($route);
     }
@@ -59,12 +60,12 @@ class Router implements IRouter
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function head(string $path, mixed $handler, array $rules) : void
+    public function head(string $path, mixed $handler, array $rules = []) : void
     {
-        $route = new Route($path, ["HEAD"], $handler, $rules);
+        $route = new Route($path, $handler, $rules, ["HEAD"]);
 
         $this->routeCollection->addRoute($route);
     }
@@ -73,12 +74,12 @@ class Router implements IRouter
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function post(string $path, mixed $handler, array $rules) : void
+    public function post(string $path, mixed $handler, array $rules = []) : void
     {
-        $route = new Route($path, ["POST"], $handler, $rules);
+        $route = new Route($path, $handler, $rules, ["POST"]);
 
         $this->routeCollection->addRoute($route);
     }
@@ -87,12 +88,12 @@ class Router implements IRouter
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function put(string $path, mixed $handler, array $rules) : void
+    public function put(string $path, mixed $handler, array $rules = []) : void
     {
-        $route = new Route($path, ["PUT"], $handler, $rules);
+        $route = new Route($path, $handler, $rules, ["PUT"]);
 
         $this->routeCollection->addRoute($route);
     }
@@ -101,12 +102,12 @@ class Router implements IRouter
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function delete(string $path, mixed $handler, array $rules) : void
+    public function delete(string $path, mixed $handler, array $rules = []) : void
     {
-        $route = new Route($path, ["DELETE"], $handler, $rules);
+        $route = new Route($path, $handler, $rules, ["DELETE"]);
 
         $this->routeCollection->addRoute($route);
     }
@@ -115,12 +116,12 @@ class Router implements IRouter
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function options(string $path, mixed $handler, array $rules) : void
+    public function options(string $path, mixed $handler, array $rules = []) : void
     {
-        $route = new Route($path, ["OPTIONS"], $handler, $rules);
+        $route = new Route($path, $handler, $rules, ["OPTIONS"]);
 
         $this->routeCollection->addRoute($route);
     }
@@ -129,12 +130,12 @@ class Router implements IRouter
      *
      * @param string $path
      * @param mixed $handler
-     * @param array $rules
+     * @param array $rules = []
      * @return void
      */
-    public function patch(string $path, mixed $handler, array $rules) : void
+    public function patch(string $path, mixed $handler, array $rules = []) : void
     {
-        $route = new Route($path, ["PATCH"], $handler, $rules);
+        $route = new Route($path, $handler, $rules, ["PATCH"]);
 
         $this->routeCollection->addRoute($route);
     }
