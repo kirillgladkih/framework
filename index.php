@@ -12,6 +12,6 @@ $request = ServerRequestFactory::fromGlobals();
 
 $router = new Router();
 
-$router->post("/test", "");
+$router->get("/test", "");
 
-$router->match($request);
+dd($router->match($request));
