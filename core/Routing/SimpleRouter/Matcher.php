@@ -3,46 +3,45 @@
 namespace Core\Routing\SimpleRouter;
 
 use Core\Helpers\Url;
-use Core\Request\Exception\MethodNotAllowedException;
-use Core\Request\Exception\NotFoundException;
 use Core\Routing\Interfaces\IMatcher;
 use Core\Routing\Interfaces\IRoute;
-use Core\Routing\Interfaces\IRouteCollection;
 use Psr\Http\Message\RequestInterface;
 
 class Matcher implements IMatcher
 {
-    protected IRouteCollection $routeCollection;
-
-    public function match(RequestInterface $request) : IRoute
+    public function match(RequestInterface $request, IRoute $route) : IRoute|bool
     {
-        $routes = $this->routeCollection->getRoutes();
+        $pattern = preg_replace_callback("/\{[a-zA-Z]+\}/", function ($mathces) use ($route) {
 
-        $methodAllow = true;
+            $key = preg_replace("/\}|\{/", "", $mathces[0]);
 
-        $matchRoute = false;
+            if (isset($route->rules()[$key])) {
 
-        foreach($routes as $route){
+                $replace = $route->rules()[$key];
 
-            $methodAllow = in_array($request->getMethod(), $route->methods());
+                return "(?P<" . $key . ">" . $replace . ")" ?? "";
 
-            if(Url::compareUrl($route->path(), $request->getUri()->getPath()))
-                $matchRoute = $route;
+            } else {
 
+                return $mathces[0];
+            }
+        }, $route->path());
+
+        $pattern = Url::cleanUrl($pattern);
+
+        $requestUri = Url::cleanUrl($request->getUri()->getPath());
+
+        if(preg_match("#^$pattern$#", $requestUri, $mathces)){
+
+            $attributes = array_filter($mathces, "\is_string", ARRAY_FILTER_USE_KEY);
+
+            foreach ($attributes as $key => $attribute)
+                $route->attributes()->set($key, $attribute);
+
+            return $route;
         }
 
-        if($matchRoute && $methodAllow)
-            return $matchRoute;
+        return false;
 
-        if($matchRoute && !$methodAllow)
-            throw new MethodNotAllowedException($request);
-
-        if(!$matchRoute)
-            throw new NotFoundException($request);
-    }
-
-    public function initCollection(IRouteCollection $collection)
-    {
-        $this->routeCollection = $collection;
     }
 }

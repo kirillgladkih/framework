@@ -12,6 +12,9 @@ $request = ServerRequestFactory::fromGlobals();
 
 $router = new Router();
 
-$router->get("/test", "");
+$router->get("/test/{id}/", [], ["id" => "[0-9]+"]);
 
-dd($router->match($request));
+$route = $router->match($request);
+
+
+dd($route->handler());

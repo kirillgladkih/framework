@@ -80,6 +80,7 @@ interface IRouter
      * Matching in collection
      *
      * @param RequestInterface $request
+     * @throws \Core\Request\Exception\IRequestExceptiion
      * @return IRoute
      */
     public function match(RequestInterface $request) : IRoute;

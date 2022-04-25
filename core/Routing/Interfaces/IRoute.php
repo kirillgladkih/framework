@@ -40,4 +40,10 @@ interface IRoute
      * @return array
      */
     public function rules() : array;
+    /**
+     * Get Attribute collection
+     *
+     * @return IAttributeCollection
+     */
+    public function attributes() : IAttributeCollection;
 }

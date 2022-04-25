@@ -2,6 +2,8 @@
 
 namespace Core\Routing\SimpleRouter;
 
+use Core\Request\Exception\MethodNotAllowedException;
+use Core\Request\Exception\NotFoundException;
 use Core\Routing\Interfaces\IMatcher;
 use Core\Routing\Interfaces\IRoute;
 use Core\Routing\Interfaces\IRouteCollection;
@@ -29,7 +31,6 @@ class Router implements IRouter
     {
         $this->initCollection(new RouteCollection());
         $this->initMatcher(new Matcher());
-        $this->matcher->initCollection($this->routeCollection);
     }
     /**
      * Add route in collection
@@ -37,7 +38,7 @@ class Router implements IRouter
      * @param IRoute $route
      * @return void
      */
-    public function addRoute(IRoute $route) : void
+    public function addRoute(IRoute $route): void
     {
         $this->routeCollection->addRoute($route);
     }
@@ -49,7 +50,7 @@ class Router implements IRouter
      * @param array $rules = []
      * @return void
      */
-    public function get(string $path, mixed $handler, array $rules = []) : void
+    public function get(string $path, mixed $handler, array $rules = []): void
     {
         $route = new Route($path, $handler, $rules, ["GET"]);
 
@@ -63,7 +64,7 @@ class Router implements IRouter
      * @param array $rules = []
      * @return void
      */
-    public function head(string $path, mixed $handler, array $rules = []) : void
+    public function head(string $path, mixed $handler, array $rules = []): void
     {
         $route = new Route($path, $handler, $rules, ["HEAD"]);
 
@@ -77,7 +78,7 @@ class Router implements IRouter
      * @param array $rules = []
      * @return void
      */
-    public function post(string $path, mixed $handler, array $rules = []) : void
+    public function post(string $path, mixed $handler, array $rules = []): void
     {
         $route = new Route($path, $handler, $rules, ["POST"]);
 
@@ -91,7 +92,7 @@ class Router implements IRouter
      * @param array $rules = []
      * @return void
      */
-    public function put(string $path, mixed $handler, array $rules = []) : void
+    public function put(string $path, mixed $handler, array $rules = []): void
     {
         $route = new Route($path, $handler, $rules, ["PUT"]);
 
@@ -105,7 +106,7 @@ class Router implements IRouter
      * @param array $rules = []
      * @return void
      */
-    public function delete(string $path, mixed $handler, array $rules = []) : void
+    public function delete(string $path, mixed $handler, array $rules = []): void
     {
         $route = new Route($path, $handler, $rules, ["DELETE"]);
 
@@ -119,7 +120,7 @@ class Router implements IRouter
      * @param array $rules = []
      * @return void
      */
-    public function options(string $path, mixed $handler, array $rules = []) : void
+    public function options(string $path, mixed $handler, array $rules = []): void
     {
         $route = new Route($path, $handler, $rules, ["OPTIONS"]);
 
@@ -133,23 +134,37 @@ class Router implements IRouter
      * @param array $rules = []
      * @return void
      */
-    public function patch(string $path, mixed $handler, array $rules = []) : void
+    public function patch(string $path, mixed $handler, array $rules = []): void
     {
         $route = new Route($path, $handler, $rules, ["PATCH"]);
 
         $this->routeCollection->addRoute($route);
     }
     /**
-     * Matching in collection
+     * Matching routes
      *
      * @param RequestInterface $request
      * @return IRoute
      */
-    public function match(RequestInterface $request) : IRoute
+    public function match(RequestInterface $request): IRoute
     {
-        $route = $this->matcher->match($request);
+        $routes = $this->routeCollection->getRoutes();
 
-        return $route;
+        foreach ($routes as $route) {
+
+            $allowMethod = in_array($request->getMethod(), $route->methods());
+
+            $match = $this->matcher->match($request, $route);
+
+            if ($match && $allowMethod)
+                return $route;
+        }
+
+        if (!$match)
+            throw new NotFoundException($request);
+
+        if ($match && !$allowMethod)
+            throw new MethodNotAllowedException($request);
     }
     /**
      * Init matcher class

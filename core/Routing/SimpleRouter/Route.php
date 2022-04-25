@@ -2,6 +2,7 @@
 
 namespace Core\Routing\SimpleRouter;
 
+use Core\Routing\Interfaces\IAttributeCollection;
 use Core\Routing\Interfaces\IRoute;
 
 class Route implements IRoute
@@ -31,6 +32,12 @@ class Route implements IRoute
      */
     protected array $methods;
     /**
+     * Attribute collection
+     *
+     * @var IAttributeCollection
+     */
+    protected IAttributeCollection $attributeCollection;
+    /**
      * init
      *
      * @param string $path
@@ -44,6 +51,7 @@ class Route implements IRoute
         $this->methods = $methods;
         $this->rules = $rules;
         $this->handler = $handler;
+        $this->attributeCollection = new AttributeCollection();
     }
     /**
      * Get route path
@@ -61,7 +69,7 @@ class Route implements IRoute
      */
     public function handler(): mixed
     {
-        return $this->handler();
+        return $this->handler;
     }
     /**
      * Get route rules
@@ -80,5 +88,14 @@ class Route implements IRoute
     public function methods(): array
     {
         return $this->methods;
+    }
+    /**
+     * Get attributes
+     *
+     * @return IAttributeCollection
+     */
+    public function attributes(): IAttributeCollection
+    {
+        return $this->attributeCollection;
     }
 }

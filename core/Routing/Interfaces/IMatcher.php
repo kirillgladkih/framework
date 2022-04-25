@@ -2,24 +2,16 @@
 
 namespace Core\Routing\Interfaces;
 
-use Laminas\Diactoros\ServerRequest;
 use Psr\Http\Message\RequestInterface;
 
 interface IMatcher
 {
     /**
-     * Routes matching
+     * Matching
+     *
      * @param RequestInterface $request
-     *
-     * @throws \Core\Request\Exception\IRequestExceptiion
-     * @return IRoute
+     * @param IRoute $route
+     * @return IRoute|boolean
      */
-    public function match(RequestInterface $request) : IRoute;
-     /**
-     * Init colletion class
-     *
-     * @param IRouteCollection $collection
-     * @return void
-     */
-    public function initCollection(IRouteCollection $collection);
+    public function match(RequestInterface $request, IRoute $route) : IRoute|bool;
 }
