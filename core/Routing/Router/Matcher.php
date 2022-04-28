@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Routing\SimpleRouter;
+namespace Core\Routing\Router;
 
 use Core\Helpers\Url;
 use Core\Routing\Interfaces\IMatcher;
@@ -15,9 +15,9 @@ class Matcher implements IMatcher
 
             $key = preg_replace("/\}|\{/", "", $mathces[0]);
 
-            if (isset($route->rules()[$key])) {
+            if (isset($route->getTokens()[$key])) {
 
-                $replace = $route->rules()[$key];
+                $replace = $route->getTokens()[$key];
 
                 return "(?P<" . $key . ">" . $replace . ")" ?? "";
 
@@ -25,7 +25,7 @@ class Matcher implements IMatcher
 
                 return $mathces[0];
             }
-        }, $route->path());
+        }, $route->getPattern());
 
         $pattern = Url::cleanUrl($pattern);
 
@@ -36,7 +36,7 @@ class Matcher implements IMatcher
             $attributes = array_filter($mathces, "\is_string", ARRAY_FILTER_USE_KEY);
 
             foreach ($attributes as $key => $attribute)
-                $route->attributes()->set($key, $attribute);
+                $route->getAttributeCollection()->set($key, $attribute);
 
             return $route;
         }

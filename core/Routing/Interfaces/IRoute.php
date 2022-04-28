@@ -17,33 +17,48 @@ interface IRoute
         "PATCH"
     ];
     /**
-     * Get route path
+     * Get route pattern
      *
      * @return string
      */
-    public function path() : string;
-    /**
-     * Get route allow methods
-     *
-     * @return array
-     */
-    public function methods() : array;
+    public function getPattern() : string;
     /**
      * Get route handler
      *
      * @return mixed
      */
-    public function handler() : mixed;
+    public function getHandler() : mixed;
     /**
-     * Get route rules
+     * Get route tokens
      *
      * @return array
      */
-    public function rules() : array;
+    public function getTokens() : array;
     /**
-     * Get Attribute collection
+     * Get route methods
+     *
+     * @return array
+     */
+    public function getMethods() : array;
+    /**
+     * Set tokens for route
+     *
+     * @param array $tokens
+     * @return void
+     */
+    public function setTokens(array $tokens) : void;
+
+    /**
+     * Get atributes collection
      *
      * @return IAttributeCollection
      */
-    public function attributes() : IAttributeCollection;
+    public function getAttributeCollection() : IAttributeCollection;
+    /**
+     * Get middleware collection
+     *
+     * @return IMiddlewareCollection
+     */
+    public function getMiddlewareCollection() : IMiddlewareCollection;
+
 }

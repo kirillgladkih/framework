@@ -1,10 +1,10 @@
 <?php
 
-namespace Core\Routing\SimpleRouter;
+namespace Core\Routing\Router;
 
 use Core\Routing\Interfaces\IAttributeCollection;
 
-class AttributeCollection implements IAttributeCollection
+class AttributeColletion implements IAttributeCollection
 {
     protected array $attributes = [];
 

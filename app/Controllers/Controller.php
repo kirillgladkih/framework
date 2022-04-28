@@ -2,12 +2,15 @@
 
 namespace App\Controllers;
 
-use Src\Controllers\BaseController;
+use Laminas\Diactoros\Response\JsonResponse;
+use Psr\Http\Message\RequestInterface;
 
-class Controller extends BaseController
+// use Src\Controllers\BaseController;
+
+class Controller
 {
-    public function index()
+    public function index(RequestInterface $request)
     {
-        return false;
+        return new JsonResponse($request);
     }
 }

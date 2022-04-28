@@ -8,12 +8,6 @@ use Psr\Http\Message\RequestInterface;
 interface IRoutingException
 {
     /**
-     * Get Request
-     *
-     * @return RequestInterface
-     */
-    public function getRequest() : RequestInterface;
-    /**
      * Get route
      *
      * @return IRoute
