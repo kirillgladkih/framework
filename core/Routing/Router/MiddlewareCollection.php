@@ -2,6 +2,7 @@
 
 namespace Core\Routing\Router;
 
+use Core\Middleware\Exception\NotFoundMIddlewareException;
 use Core\Middleware\Interface\IMiddleware;
 use Core\Routing\Interfaces\IMiddlewareCollection;
 
@@ -21,7 +22,12 @@ class MiddlewareCollection implements IMiddlewareCollection
      */
     public function set(string $name) : void
     {
+        $middlewares = include(__DIR__ . "/../../../config/middlewares.php");
 
+        if(!key_exists($name, $middlewares))
+            throw new NotFoundMIddlewareException($name);
+
+        $this->middlewares[$name] = $middlewares[$name];
     }
     /**
      * Get middleware

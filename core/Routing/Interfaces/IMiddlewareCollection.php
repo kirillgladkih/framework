@@ -10,6 +10,7 @@ interface IMiddlewareCollection
      * Set middleware colleciton
      *
      * @param string $name
+     * @throws \Core\Middleware\Exception\IMiddlewareException
      * @return void
      */
     public function set(string $name) : void;

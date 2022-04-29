@@ -5,11 +5,11 @@ namespace Core\Routing\Router;
 use Core\Helpers\Url;
 use Core\Routing\Interfaces\IMatcher;
 use Core\Routing\Interfaces\IRoute;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Matcher implements IMatcher
 {
-    public function match(RequestInterface $request, IRoute $route) : IRoute|bool
+    public function match(ServerRequestInterface $request, IRoute $route) : IRoute|bool
     {
         $pattern = preg_replace_callback("/\{[a-zA-Z]+\}/", function ($mathces) use ($route) {
 

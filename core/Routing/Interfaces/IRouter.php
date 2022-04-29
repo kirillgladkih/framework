@@ -2,18 +2,18 @@
 
 namespace Core\Routing\Interfaces;
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface IRouter
 {
     /**
      * Matching in collection
      *
-     * @param RequestInterface $request
+     * @param ServerRequestInterface $request
      * @throws \Core\Request\Exception\IRequestExceptiion
      * @return IRoute
      */
-    public function match(RequestInterface $request) : IRoute;
+    public function match(ServerRequestInterface $request) : IRoute;
     /**
      * Load routes collection
      *

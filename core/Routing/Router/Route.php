@@ -48,12 +48,12 @@ class Route implements IRoute
      * Init
      *
      * @param string $pattern
-     * @param string $handler
+     * @param mixed $handler
      * @param [type] $methods
      */
     public function __construct(
         string $pattern,
-        string $handler,
+        mixed $handler,
         array $methods = self::METHODS
     ){
         $this->pattern = $pattern;

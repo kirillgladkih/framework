@@ -8,7 +8,7 @@ use Core\Routing\Interfaces\IMatcher;
 use Core\Routing\Interfaces\IRoute;
 use Core\Routing\Interfaces\IRouteCollection;
 use Core\Routing\Interfaces\IRouter;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Router implements IRouter
 {
@@ -34,10 +34,10 @@ class Router implements IRouter
     /**
      * Matching
      *
-     * @param RequestInterface $request
+     * @param ServerRequestInterface $request
      * @return IRoute
      */
-    public function match(RequestInterface $request): IRoute
+    public function match(ServerRequestInterface $request): IRoute
     {
         foreach ($this->routes as $route) {
 

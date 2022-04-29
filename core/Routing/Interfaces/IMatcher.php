@@ -2,16 +2,16 @@
 
 namespace Core\Routing\Interfaces;
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface IMatcher
 {
     /**
      * Matching
      *
-     * @param RequestInterface $request
+     * @param ServerRequestInterface $request
      * @param IRoute $route
      * @return IRoute|boolean
      */
-    public function match(RequestInterface $request, IRoute $route) : IRoute|bool;
+    public function match(ServerRequestInterface $request, IRoute $route) : IRoute|bool;
 }

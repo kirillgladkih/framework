@@ -127,12 +127,16 @@ class RouteCollection implements IRouteCollection
     /**
      * Set middleware in route
      *
-     * @param array $middleware
+     * @param array $middlewares
      * @return IRouteCollection
      */
-    public function middleware(array $middleware) : IRouteCollection
+    public function middleware(array $middlewares) : IRouteCollection
     {
-        $this->route->getMiddlewareCollection();
+        $middlewareCollection = $this->route->getMiddlewareCollection();
+
+
+        foreach ($middlewares as $middleware)
+            $middlewareCollection->set($middleware);
 
         return $this;
     }

@@ -2,25 +2,25 @@
 
 namespace Core\Middleware;
 
-use Core\Middleware\Interface\IMiddleware;
-use Psr\Http\Message\RequestInterface;
+use Core\Middleware\Interfaces\IMiddleware;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Middleware implements IMiddleware
 {
     /**
      * Request
      *
-     * @var RequestInterface
+     * @var ServerRequestInterface
      */
-    protected RequestInterface $reqeust;
+    protected ServerRequestInterface $request;
     /**
      * Init
      *
-     * @param RequestInterface $reqeust
+     * @param ServerRequestInterface $request
      */
-    public function __construct(RequestInterface $reqeust)
+    public function __construct(ServerRequestInterface $request)
     {
-        $this->reqeust = $reqeust;
+        $this->request = $request;
     }
     /**
      * Handle

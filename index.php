@@ -1,41 +1,49 @@
 <?php
 
-use App\Controllers\Controller;
+use Core\Request\Exception\IRequestExceptiion;
 use Core\Resolver\Resolver;
-use Core\Routing\Router\Route;
-use Core\Routing\Router\RouteCollection;
+use Core\Response\Sender;
 use Core\Routing\Router\Router;
+use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\ServerRequestFactory;
 
 require_once __DIR__ . "/bootstrap.php";
 
-ini_set('display_errors',1);
+ini_set('display_errors', 1);
 ini_set("error_reporting", E_ALL);
 
-$request = ServerRequestFactory::fromGlobals();
+try {
+    $request = ServerRequestFactory::fromGlobals();
 
-$router = new Router();
+    $router = new Router();
 
-$router->loadMap(include(__DIR__ . "/routes/api.php"));
+    $router->loadMap(include(__DIR__ . "/routes/api.php"));
 
-dd($router->match($request));
+    $route = $router->match($request);
 
-// dd($routeColletion);
+    foreach ($route->getAttributeCollection()->all() as $key => $attribute)
+        $request = $request->withAttribute($key, $attribute);
+
+    $resolver = new Resolver();
+
+    foreach($route->getMiddlewareCollection()->all() as $item){
+
+        $middleware = new $item($request);
+
+        $handler = $middleware->handle($route->getHandler());
+
+    }
+
+    $response = $resolver->resolve($handler)($request);
+
+} catch (IRequestExceptiion $exception) {
+
+    $response = new JsonResponse(
+        ["errors" => $exception->getMessage()],
+        $exception->getCode()
+    );
 
 
+}
 
-// $router->get(
-//     "/test/{id}/", //url
-//     [Controller::class, "index"], //handler
-//     ["id" => "[0-9]+"] // rules
-// );
-
-// $route = $router->match($request);
-
-// $handler = $route->handler();
-
-// $resolver = new Resolver();
-
-// $response = $resolver->resolve($handler)($request);
-
-// dd($response->getHeaders());
+Sender::send($response);
