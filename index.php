@@ -26,11 +26,13 @@ try {
 
     $resolver = new Resolver();
 
+    $handler = $route->getHandler();
+
     foreach($route->getMiddlewareCollection()->all() as $item){
 
         $middleware = new $item($request);
 
-        $handler = $middleware->handle($route->getHandler());
+        $middleware->handle($route->getHandler());
 
     }
 
