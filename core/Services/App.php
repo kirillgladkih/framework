@@ -78,9 +78,9 @@ class App
             $this->stak[] = $route->getHandler();
             
             foreach($this->stak as $item)
-                $action = $this->resolver->resolve($item, $this->request);
+                $response = $this->resolver
+                    ->resolve($item, $this->request)($this->request);
 
-            $response = $action($this->request);
 
         } catch (IRequestExceptiion $exception) {
         
