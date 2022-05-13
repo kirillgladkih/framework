@@ -46,7 +46,7 @@ class App
         $this->request = ServerRequestFactory::fromGlobals();
         $this->router = new Router();
         $this->resolver = new Resolver();
-        
+
         $this->boot();
     }
     /**
@@ -54,7 +54,7 @@ class App
      *
      * @return void
      */
-    public function boot() : void 
+    public function boot() : void
     {
         $this->router->loadMap(include(__DIR__ . "/../../routes/api.php"));
     }
@@ -65,31 +65,31 @@ class App
      */
     public function run()
     {
-        try {         
+        try {
 
             $route = $this->router->match($this->request);
-        
+
             foreach ($route->getAttributeCollection()->all() as $key => $attribute)
                 $this->request = $this->request->withAttribute($key, $attribute);
 
             foreach($route->getMiddlewareCollection()->all() as $item)
-                $this->stak[] = [$item, "handle"];        
-            
+                $this->stak[] = [$item, "handle"];
+
             $this->stak[] = $route->getHandler();
-            
+
             foreach($this->stak as $item)
                 $response = $this->resolver
                     ->resolve($item, $this->request)($this->request);
 
 
         } catch (IRequestExceptiion $exception) {
-        
+
             $response = new JsonResponse(
                 ["errors" => $exception->getMessage()],
                 $exception->getCode()
             );
         }
-        
+
         Sender::send($response);
     }
 }

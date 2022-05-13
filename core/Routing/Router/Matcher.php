@@ -31,7 +31,9 @@ class Matcher implements IMatcher
 
         $requestUri = Url::cleanUrl($request->getUri()->getPath());
 
-        if(preg_match("#^$pattern$#", $requestUri, $mathces)){
+        $pattern = preg_replace("/\//", "\/", $pattern);
+
+        if(preg_match("/^$pattern$/", $requestUri, $mathces)){
 
             $attributes = array_filter($mathces, "\is_string", ARRAY_FILTER_USE_KEY);
 

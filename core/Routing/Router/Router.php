@@ -39,21 +39,24 @@ class Router implements IRouter
      */
     public function match(ServerRequestInterface $request): IRoute
     {
-        foreach ($this->routes as $route) {
+        $matches = [];
+        /**
+         * Url match
+         */
+        foreach ($this->routes as $route)
+            if($this->matcher->match($request, $route))
+                $matches[] = $route;
+        /**
+         * Method match
+         */
+        foreach ($matches as $match)
+            if(in_array($request->getMethod(), $match->getMethods()))
+                return $match;
 
-            $allowMethod = in_array($request->getMethod(), $route->getMethods());
-
-            $match = $this->matcher->match($request, $route);
-
-            if ($match && $allowMethod)
-                return $route;
-        }
-
-        if (!$match)
+        if (empty($matches))
             throw new NotFoundException($request);
 
-        if ($match && !$allowMethod)
-            throw new MethodNotAllowedException($request);
+        throw new MethodNotAllowedException($request);
     }
     /**
      * Load routes map

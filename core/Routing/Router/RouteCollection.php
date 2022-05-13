@@ -32,7 +32,7 @@ class RouteCollection implements IRouteCollection
 
         $this->routes[] = $this->route;
 
-        return $this;
+        return clone $this;
     }
     /**
      * Add head route in colletion
@@ -62,7 +62,7 @@ class RouteCollection implements IRouteCollection
 
         $this->routes[] = $this->route;
 
-        return $this;
+        return clone $this;
     }
     /**
      * Add put route in collection
@@ -77,7 +77,7 @@ class RouteCollection implements IRouteCollection
 
         $this->routes[] = $this->route;
 
-        return $this;
+        return clone $this;
     }
     /**
      * Add delete route in collection
@@ -92,7 +92,7 @@ class RouteCollection implements IRouteCollection
 
         $this->routes[] = $this->route;
 
-        return $this;
+        return clone $this;
     }
     /**
      * Add option route in colletion
@@ -107,7 +107,7 @@ class RouteCollection implements IRouteCollection
 
         $this->routes[] = $this->route;
 
-        return $this;
+        return clone $this;
     }
     /**
      * Add patch route in collection
@@ -122,7 +122,7 @@ class RouteCollection implements IRouteCollection
 
         $this->routes[] = $this->route;
 
-        return $this;
+        return clone $this;
     }
     /**
      * Set middleware in route
@@ -138,7 +138,7 @@ class RouteCollection implements IRouteCollection
         foreach ($middlewares as $middleware)
             $middlewareCollection->set($middleware);
 
-        return $this;
+        return clone $this;
     }
     /**
      * Set tokens in route
@@ -152,7 +152,7 @@ class RouteCollection implements IRouteCollection
 
         $this->routes[] = $this->route;
 
-        return $this;
+        return clone $this;
     }
     /**
      * Get routes
