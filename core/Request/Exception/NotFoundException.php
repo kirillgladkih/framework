@@ -13,6 +13,7 @@ class NotFoundException extends ARequestException
             Status::getMessageForCode(Status::HTTP_NOT_FOUND),
             Status::HTTP_NOT_FOUND,
             $request,
+            [],
             $previos
         );
     }

@@ -1,12 +1,29 @@
 <?php
 
 use App\Controllers\Controller;
+use App\Middleware\Exemple;
 use Core\Routing\Router\RouteCollection;
 
 $routeCollection = new RouteCollection;
 
-$routeCollection->get("/test/", [Controller::class, "index"])
-    ->tokens(["id" => "[0-9]"]);
-    // ->middleware(["test"]);
+/**
+ * ALLOWED HTTP METHODS : [POST, GET, PUT, DELETE, PATCH, HEAD, OPTIONS]
+ *
+ * ROUTECOLLECTION CLASS METHODS : middleware, tokens
+ *
+ * 1 - устанавливает посредника (прежде чем установить посредника его необходимо добавить в /framework/config/middlewares.php)
+ * 2 - метод добавляет регулярное выражение, которое будет распирсиваться и передаваться в request
+ *
+ * ФАЙЛЫ С РОУТАМИ ДОЛЖНЫ ВОЗВРАЩАТЬ НАСЛЕДНИКА ОТ IRouteCollection
+ *
+ * ЧТОБЫ ПОСМОТРЕТЬ КАК ПОДКЛЮЧИТЬ БОЛЬШЕ ЧЕМ ОДИН ФАЙЛ С РОУТАМИ ПЕРЕХОДИ
+ * В ЭТОТ ФАЙЛ ./framework/app/Services/Application.php
+ *
+ */
+
+$routeCollection->get("/api/test/{id}", [Controller::class, "index"])
+    ->tokens(["id" => "[0-9]"])
+    // ->middleware([Exemple::class, Exemple2::class])
+    ;
 
 return $routeCollection;

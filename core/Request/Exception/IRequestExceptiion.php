@@ -12,4 +12,10 @@ interface IRequestExceptiion
      * @return RequestInterface
      */
     public function getRequest() : RequestInterface;
+    /**
+     * Get errors
+     *
+     * @return array
+     */
+    public function getErrors() : array;
 }

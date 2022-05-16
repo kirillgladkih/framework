@@ -13,9 +13,18 @@ abstract class ARequestException extends \LogicException implements IRequestExce
      */
     protected RequestInterface $request;
 
-    public function __construct(string $message = "", int $code = 500, RequestInterface $request, \Throwable $previos = null)
+    protected array $errors = [];
+
+    public function __construct(
+        string $message = "",
+        int $code = 500,
+        RequestInterface $request,
+        $errors = [],
+        \Throwable $previos = null)
     {
         $this->request = $request;
+
+        $this->errors = $errors;
 
         parent::__construct($message, $code, $previos);
     }
@@ -23,5 +32,14 @@ abstract class ARequestException extends \LogicException implements IRequestExce
     public function getRequest(): RequestInterface
     {
         return $this->request;
+    }
+    /**
+     * Undocumented function
+     *
+     * @return array
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 }

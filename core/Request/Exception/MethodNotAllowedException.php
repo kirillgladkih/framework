@@ -13,6 +13,7 @@ class MethodNotAllowedException extends ARequestException
             Status::getMessageForCode(Status::HTTP_METHOD_NOT_ALLOWED),
             Status::HTTP_METHOD_NOT_ALLOWED,
             $request,
+            [],
             $previos
         );
     }
