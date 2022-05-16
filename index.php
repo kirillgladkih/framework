@@ -1,10 +1,12 @@
 <?php
 
-use Core\Services\App;
+require_once __DIR__ . "/vendor/autoload.php";
+require_once __DIR__ . "/../bitrix/modules/main/include/prolog_before.php";
 
-require_once __DIR__ . "/bootstrap.php";
+use Core\Services\App;
 
 ini_set('display_errors', 1);
 ini_set("error_reporting", E_ALL);
+
 $app = new App();
 $app->run();
