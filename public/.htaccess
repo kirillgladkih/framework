@@ -33,10 +33,3 @@
 
 </IfModule>
 
-Order deny,allow
-Deny from all
-
-<Files index.php>
-    Order Allow,Deny
-    Allow from all
-</Files>
