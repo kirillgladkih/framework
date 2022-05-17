@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Validation\Rules;
+namespace App\Services\Validation\Rules;
 
 use Core\Validation\Interfaces\IRule;
-use Psr\Http\Message\ServerRequestInterface;
 
 class RequiredRule implements IRule
 {

@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Validation\TestValidator;
 use Core\Controllers\BaseController;
 use Psr\Http\Message\ResponseInterface;
+use App\Services\Validation\TestValidator;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**

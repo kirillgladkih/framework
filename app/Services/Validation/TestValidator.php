@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Validation;
+namespace App\Services\Validation;
 
-use App\Validation\Rules\RequiredRule;
+use App\Services\Validation\Rules\RequiredRule;
 use Core\Validation\Validator;
 
 class TestValidator extends Validator
