@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Validation\TestValidator;
 use Core\Controllers\BaseController;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,5 +25,17 @@ class Controller extends BaseController
     public function index(ServerRequestInterface $request): ResponseInterface
     {
         return $this->jsonResponse(["id" => $request->getAttribute("id")]);
+    }
+
+    public function store(ServerRequestInterface $request): ResponseInterface
+    {
+        /**
+         * ПРИМЕР ВАЛИДАТОРА СМОТРЕТЬ app/Validation/TestValidator.php
+         */
+        $validator = new TestValidator();
+
+        $validator->run($request);
+
+        return $this->jsonResponse("ok");
     }
 }

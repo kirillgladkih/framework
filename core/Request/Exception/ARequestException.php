@@ -2,7 +2,7 @@
 
 namespace Core\Request\Exception;
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 abstract class ARequestException extends \LogicException implements IRequestExceptiion
 {
@@ -11,14 +11,14 @@ abstract class ARequestException extends \LogicException implements IRequestExce
      *
      * @var RequestInterface
      */
-    protected RequestInterface $request;
+    protected ServerRequestInterface $request;
 
     protected array $errors = [];
 
     public function __construct(
         string $message = "",
         int $code = 500,
-        RequestInterface $request,
+        ServerRequestInterface $request,
         $errors = [],
         \Throwable $previos = null)
     {
@@ -29,7 +29,7 @@ abstract class ARequestException extends \LogicException implements IRequestExce
         parent::__construct($message, $code, $previos);
     }
 
-    public function getRequest(): RequestInterface
+    public function getRequest(): ServerRequestInterface
     {
         return $this->request;
     }

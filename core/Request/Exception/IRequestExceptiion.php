@@ -2,16 +2,16 @@
 
 namespace Core\Request\Exception;
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface IRequestExceptiion
 {
     /**
      * Get request
      *
-     * @return RequestInterface
+     * @return \Psr\Http\Message\ServerRequestInterface
      */
-    public function getRequest() : RequestInterface;
+    public function getRequest() : ServerRequestInterface;
     /**
      * Get errors
      *

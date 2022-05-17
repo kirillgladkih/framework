@@ -26,4 +26,6 @@ $routeCollection->get("/api/test/{id}", [Controller::class, "index"])
     // ->middleware([Exemple::class, Exemple2::class])
     ;
 
+$routeCollection->post("/api/test/", [Controller::class, "store"]);
+
 return $routeCollection;
