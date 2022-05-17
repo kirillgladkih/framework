@@ -8,5 +8,9 @@ use App\Services\Application;
 ini_set('display_errors', 1);
 ini_set("error_reporting", E_ALL);
 
+/**
+ * ТОЧКА ВХОДА ДЛЯ API
+ */
+
 $app = new Application();
 $app->run();
