@@ -10,6 +10,7 @@ class Cnf
 
         return $config[$key] ?? null;
     }
+
     public static function rules(string $key): mixed
     {
         $config = include(__DIR__ . "/../../config/validation.php");
