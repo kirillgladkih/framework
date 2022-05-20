@@ -40,30 +40,48 @@ class ConstructorFactory implements IConstructorFactory
         $ids[] = $productId;
 
 
-        // foreach ($ids as $id){
+        foreach ($ids as $id){
 
-        //     $item = $iblockHelper->byId($id);
+            $item = $iblockHelper->byId($id, [], ["IBLOCK_SECTION_ID", "PREVIEW_PICTURE"]);
 
-        //     $item["BASIC"] = in_array($id, $basicIds);
+            $item["BASIC"] = in_array($id, $basicIds);
 
-        //     $item["CHECKED"] =  $collection->get($id)["checked"] ?? false;
+            $sectionId = $item["fields"]["IBLOCK_SECTION_ID"];
 
-        //     $item["PRICE"] = $catalogHelper->getBasePrice($id);
+            $item["SECTIONS"] = $sectionId
+                ? $iblockHelper->navigationChain($sectionId)
+                : [];
 
-        //     $item["MAIN"] = $id == $productId ? true : false;
+            $item["MAIN"] = $id == $productId ? true : false;
 
-        //     $items[] = $item;
+            $checked = $collection->get($id)["checked"] || $id == $productId
+                ? true
+                : false;
 
-        // }
+            $previewPicture = $item["fields"]["PREVIEW_PICTURE"] ?? false;
 
-        // foreach($items as $item){
+            $item["PREVIEW_PICTURE"] = $previewPicture ?
+                $iblockHelper->pictureSrcById($previewPicture)
+                : "";
 
-        //     $data = ConstructorMap::prepare($item);
+            $item["CHECKED"] =  $checked;
 
-        //     if(!$collection->add($data["id"], $data))
-        //         $collection->replace($data["id"], $data);
+            $item["PRICE"] = $catalogHelper->getBasePrice($id);
 
-        // }
+            $item["QUANTITY"] = $collection->get($id)["quantity"] ?? 1;
+
+            $items[] = $item;
+
+        }
+
+        foreach($items as $item){
+
+            $data = ConstructorMap::prepare($item);
+
+            if(!$collection->add($data["id"], $data))
+                $collection->replace($data["id"], $data);
+
+        }
 
         return new Constructor($collection);
     }

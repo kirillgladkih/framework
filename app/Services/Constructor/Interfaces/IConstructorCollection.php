@@ -2,7 +2,7 @@
 
 namespace App\Services\Constructor\Interfaces;
 
-use App\Services\Constructor\Abstracts\AConstructorItem;
+use App\Services\Constructor\Abstracts\array;
 
 interface IConstructorCollection
 {
@@ -10,10 +10,10 @@ interface IConstructorCollection
      * Add
      *
      * @param string $key
-     * @param AConstructorItem $item
+     * @param array $item
      * @return boolean
      */
-    public function add(string $key, AConstructorItem $item): bool;
+    public function add(string $key, array $item): bool;
     /**
      * Delete item
      *
@@ -25,27 +25,27 @@ interface IConstructorCollection
      * Replace item
      *
      * @param string $key
-     * @param AConstructorItem $item
+     * @param array $item
      * @return boolean
      */
-    public function replace(string $key, AConstructorItem $item): bool;
+    public function replace(string $key, array $item): bool;
     /**
      * Get items
      *
-     * @return AConstructorItem[]
+     * @return array[]
      */
     public function all(): array;
     /**
      * Get item
      *
      * @param string $key
-     * @return AConstructorItem
-     */
-    public function get(string $key): AConstructorItem;
-    /**
-     * Get to array
-     * @param IConstructorCollection $collection
      * @return array
      */
-    public static function toArray(IConstructorCollection $collection): array;
+    public function get(string $key): array;
+    /**
+     * Get sum
+     *
+     * @return float
+     */
+    public function sum(): float;
 }

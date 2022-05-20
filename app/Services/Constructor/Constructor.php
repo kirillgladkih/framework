@@ -31,4 +31,9 @@ class Constructor implements IConstructor
     {
         return $this->collection;
     }
+
+    public function sum(): float
+    {
+        return $this->collection()->sum();
+    }
 }

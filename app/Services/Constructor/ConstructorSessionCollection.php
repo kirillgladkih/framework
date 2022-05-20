@@ -2,7 +2,7 @@
 
 namespace App\Services\Constructor;
 
-use App\Services\Constructor\Abstracts\AConstructorItem;
+use App\Services\Constructor\Abstracts\array;
 use App\Services\Constructor\Interfaces\IConstructorCollection;
 
 class ConstructorSessionCollection implements IConstructorCollection
@@ -14,11 +14,11 @@ class ConstructorSessionCollection implements IConstructorCollection
         $this->productId = $productId;
     }
 
-    public function add(string $key, AConstructorItem $item): bool
+    public function add(string $key, array $item): bool
     {
         if(!key_exists($key, $_SESSION["constructor"][$this->productId] ?? [])){
 
-            $_SESSION["constructor"][$this->productId][$key] = $item->toArray();
+            $_SESSION["constructor"][$this->productId][$key] = $item;
 
             $result = true;
 
@@ -40,11 +40,11 @@ class ConstructorSessionCollection implements IConstructorCollection
         return $result ?? false;
     }
 
-    public function replace(string $key, AConstructorItem $item): bool
+    public function replace(string $key, array $item): bool
     {
         if(key_exists($key, $_SESSION["constructor"][$this->productId] ?? [])){
 
-            $_SESSION["constructor"][$this->productId][$key] = $item->toArray();
+            $_SESSION["constructor"][$this->productId][$key] = $item;
 
             $result = true;
 
@@ -53,31 +53,30 @@ class ConstructorSessionCollection implements IConstructorCollection
         return $result ?? false;
     }
 
-    public function get(string $key): AConstructorItem
+    public function get(string $key): array
     {
         if(key_exists($key, $_SESSION["constructor"][$this->productId] ?? []))
             $result = $_SESSION["constructor"][$this->productId][$key];
 
-        return new ConstructorItem($result) ?? false;
+        return $result ?? [];
     }
 
     public function all(): array
     {
-        $items = $_SESSION["constructor"][$this->productId] ?? [];
-
-        foreach($items as $item)
-            $result[] = new ConstructorItem($item);
-
-        return $result ?? [];
+        return $_SESSION["constructor"][$this->productId] ?? [];
     }
 
-    public static function toArray(IConstructorCollection $collection): array
+    public function sum(): float
     {
-        $items = $collection->all();
+        $items = $this->all();
 
-        foreach($items as $item)
-            $result[] = $item->toArray();
+        $sum = 0.0;
 
-        return $result ?? [];
+        foreach($items as $item){
+            if($item["checked"] == true)
+                $sum+= (float) $item["price"];
+        }
+
+        return $sum;
     }
 }

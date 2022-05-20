@@ -26,8 +26,9 @@ class ConstructorController extends BaseController
                 $request->getAttribute("id")
             );
 
-            $result = $constructor->collection()->all();
+            $result["items"] = $constructor->collection()->all();
 
+            $result["sum"] = $constructor->sum();
         }
 
         return $this->jsonResponse($result ?? false);
@@ -45,7 +46,6 @@ class ConstructorController extends BaseController
                 $request->getAttribute("id")
             );
 
-
             $item = $constructor->collection()
                 ->get($request->getParsedBody()["itemId"] ?? 0);
 
@@ -55,8 +55,9 @@ class ConstructorController extends BaseController
 
                 $constructor->collection()->replace($item["id"], $item);
 
-                $result = $constructor->collection()->all();
+                $result["items"] = $constructor->collection()->all();
 
+                $result["sum"] = $constructor->sum();
             }
 
         }

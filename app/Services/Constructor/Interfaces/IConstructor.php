@@ -10,4 +10,10 @@ interface IConstructor
      * @return IConstructorCollection
      */
     public function collection(): IConstructorCollection;
+    /**
+     * Get sum
+     *
+     * @return float
+     */
+    public function sum(): float;
 }

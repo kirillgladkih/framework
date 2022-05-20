@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Validation\TestValidator;
 use Core\Controllers\BaseController;
 use Psr\Http\Message\ResponseInterface;
-use App\Services\Validation\TestValidator;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -32,10 +32,11 @@ class Controller extends BaseController
         /**
          * ПРИМЕР ВАЛИДАТОРА СМОТРЕТЬ app/Validation/TestValidator.php
          */
-        $validator = new TestValidator();
 
-        $validator->run($request);
+        $validator = new TestValidator($request);
 
-        return $this->jsonResponse("ok");
+        $validator->make();
+
+        return $this->jsonResponse($validator->errors());
     }
 }

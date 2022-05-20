@@ -21,7 +21,7 @@ class IBlockHelper
         $result = [];
 
         $select = array_merge(
-            ["ID", "IBLOCK_ID", "NAME","PROPERTY_*"],
+            ["ID", "IBLOCK_ID", "NAME", "PROPERTY_*"],
             $select
         );
 
@@ -54,7 +54,7 @@ class IBlockHelper
         $result = [];
 
         $select = array_merge(
-            ["ID", "IBLOCK_ID", "NAME","PROPERTY_*"],
+            ["ID", "IBLOCK_ID", "NAME", "PROPERTY_*"],
             $select
         );
 
@@ -74,5 +74,37 @@ class IBlockHelper
             ];
 
         return $result;
+    }
+    /**
+     * Get sections
+     *
+     * @param integer $sectionId
+     * @param array $filter
+     * @param array $select
+     * @return array
+     */
+    public function navigationChain(int $sectionId, array $filter = [], array $select = []): array
+    {
+        $iterator = \CIBlockSection::GetNavChain(false, $sectionId);
+
+        while ($item = $iterator->GetNext())
+            $result[] = $item;
+
+        return $result ?? [];
+    }
+    /**
+     * Get pictute by id
+     *
+     * @param int id
+     * @return string|boolean
+     */
+    public function pictureSrcById(int $id): string|bool
+    {
+        $iterator = \CFile::GetByID($id);
+
+        if($pic = $iterator->Fetch())
+            $result = \CFile::GetPath($pic);
+
+        return $result ?? false;
     }
 }
