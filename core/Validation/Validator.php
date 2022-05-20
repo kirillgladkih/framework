@@ -2,40 +2,77 @@
 
 namespace Core\Validation;
 
-use Core\Request\Exception\BadRequestException;
-use Core\Validation\Interfaces\IValidator;
-use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 
-class Validator implements IValidator
+class Validator
 {
+    use ValidatorTrait;
+    /**
+     * Errors
+     *
+     * @var array
+     */
     protected array $errors = [];
-
-    public function rules() : array
+    /**
+     * Resolver
+     *
+     * @var Resolver
+     */
+    protected $resolver;
+    /**
+     * Request
+     *
+     * @var ServerRequestInterface
+     */
+    protected ServerRequestInterface $request;
+    /**
+     * Init
+     */
+    public function __construct(ServerRequestInterface $request)
     {
-        return [];
+        $this->request = $request;
+
+        $this->resolver = new Resolver();
+
+        $this->before();
     }
-
-    public function run(ServerRequestInterface $request) : ServerRequestInterface
+    /**
+     * This rules
+     *
+     * @return array
+     */
+    protected function rules(): array
     {
-        $requestBody = $request->getParsedBody();
+        return [
+            "test" => ["thiProdutct"]
+        ];
+    }
+    /**
+     * Make validation
+     *
+     * @return ServerRequestInterface
+     */
+    public function make(): ServerRequestInterface
+    {
+        foreach ($this->rules() as $attribute => $ruleArray) {
 
-        foreach ($this->rules() as $attribute => $rule){
+            foreach ($ruleArray as $rule) {
 
-            if(!is_callable([$rule, "check"]))
-                throw new Exception(
-                    "$rule is not callable",
-                    500
-                );
+                $value = $this->request->getParsedBody()[$attribute] ?? null;
 
-            if(!$rule::check($requestBody[$attribute]))
-                $this->errors[$attribute][] = $rule::message();
+                $class = $this->resolver->resolve($rule);
 
+                if (!$class->check($value))
+                    $this->errors[$attribute][] = $class->message();
+
+            }
         }
 
-        if(!empty($this->errors))
-            throw new BadRequestException($request, $this->errors);
+        if (!empty($this->errors))
+            $this->failed();
 
-        return $request;
+        $this->after();
+
+        return $this->request;
     }
 }

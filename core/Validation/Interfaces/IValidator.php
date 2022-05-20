@@ -15,10 +15,4 @@ interface IValidator
      * @return ServerRequestInterface
      */
     public function run(ServerRequestInterface $request): ServerRequestInterface;
-    /**
-     * Get Rules
-     *
-     * @return Core\Validation\Interfaces\IRules[]
-     */
-    public function rules(): array;
 }

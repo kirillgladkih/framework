@@ -9,11 +9,11 @@ interface IRule
      * @param mixed $value
      * @return boolean
      */
-    public static function check(mixed $value): bool;
+    public function check(mixed $value): bool;
     /**
      * Failed message string
      *
      * @return string
      */
-    public static function message(): string;
+    public function message(): string;
 }

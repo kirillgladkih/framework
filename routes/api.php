@@ -30,24 +30,10 @@ $routeCollection->get("/api/test/{id}", [Controller::class, "index"])
 
 $routeCollection->post("/api/test/", [Controller::class, "store"]);
 
-// $routeCollection->get("/api/products/", [ProductController::class, "index"]);
-
-// $routeCollection->get("/api/product/{id}", [ProductController::class, "show"])
-//     ->tokens(["id" => "[0-9]+"]);
-
 $routeCollection->get("/api/constructor/{id}", [ConstructorController::class, "show"])
     ->tokens(["id" => "[0-9]+"]);
 
 $routeCollection->post("/api/constructor/{id}", [ConstructorController::class, "check"])
     ->tokens(["id" => "[0-9]+"]);;
-
-// $routeCollection->get("/api/constructor/available/{id}", [ConstructorController::class, "available"])
-//     ->tokens(["id" => "[0-9]+"]);
-
-// $routeCollection->delete("/api/constructor/{id}/{itemId}", [ConstructorController::class, "delete"])
-//     ->tokens([
-//         "id" => "[0-9]+",
-//         "itemId" => "[0-9]+"
-//     ]);
 
 return $routeCollection;
