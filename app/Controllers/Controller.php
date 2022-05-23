@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Services\Auth\JWT\JWT;
 use Core\Controllers\BaseController;
 use Psr\Http\Message\ResponseInterface;
 use App\Services\Validation\TestValidator;
@@ -24,7 +25,7 @@ class Controller extends BaseController
      */
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->jsonResponse(["id" => $request->getAttribute("id")]);
+        dd(JWT::decode($request->getHeader("jwt")[0]));
     }
 
     public function store(ServerRequestInterface $request): ResponseInterface

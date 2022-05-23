@@ -11,5 +11,5 @@ interface IAuthentication
      * @param string $password
      * @return boolean
      */
-    public function attempt(string $login, string $password): bool;
+    public static function attempt(string $login, string $password): bool;
 }
