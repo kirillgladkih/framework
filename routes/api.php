@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\Auth\JWT\JWTController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Controller;
 use App\Middleware\Exemple;
@@ -24,13 +25,13 @@ $routeCollection = new RouteCollection;
  */
 
 $routeCollection->get("/api/test/", [Controller::class, "index"])
-    ->middleware(["jwt"]);
+    // ->middleware(["jwt"]);
     // ->tokens(["id" => "[0-9]"])
     // ->middleware([Exemple::class, Exemple2::class])
-    ;
+;
 
 $routeCollection->post("/api/test/", [Controller::class, "store"]);
 
-$routeCollection->post("/api/login", [LoginController::class, "login"]);
+$routeCollection->post("/api/login", [JWTController::class, "login"]);
 
 return $routeCollection;

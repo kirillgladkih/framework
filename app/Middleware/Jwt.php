@@ -28,7 +28,7 @@ class Jwt extends Middleware
         $jwt = $this->request
             ->getHeader("jwt")[0] ?? "";
 
-        if($jwt && WebJwt::decode($jwt))
+        if($jwt && WebJwt::validate($jwt))
             return $handler;
 
         throw new UnauthorizedException($this->request);

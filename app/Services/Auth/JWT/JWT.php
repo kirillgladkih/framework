@@ -8,23 +8,30 @@ use Exception;
 
 class JWT
 {
+    public static array $allowedAgs = ["HS256"];
+
     public static function token(array $data = [])
     {
-        $payload = array_merge(Cnf::auth("jwt"), ["data" => $data]);
+        $payload = array_merge(
+            Cnf::auth("jwt"),
+            ["data" => $data]
+        );
 
         return WebJWT::encode($payload, Cnf::auth("key"));
     }
 
-    public static function decode(string $jwt)
+    public static function validate(string $jwt)
     {
         try{
 
-            $result = WebJWT::decode($jwt, Cnf::auth("key"),  array('HS256'));
+            $result = WebJWT::decode(
+                $jwt,
+                Cnf::auth("key"),
+                self::$allowedAgs
+            );
 
         }catch(Exception $e) {
-
             return false;
-
         }
 
         return $result;

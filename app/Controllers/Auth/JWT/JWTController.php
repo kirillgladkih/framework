@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Controllers\Auth;
+namespace App\Controllers\Auth\JWT;
 
-use App\Repository\Bitrix\UserRepository;
+use App\Repository\Bitrix\Table\UserRepository;
 use App\Services\Auth\Authentication;
 use App\Services\Auth\JWT\JWT;
 use App\Services\Validation\Auth\LoginValidator;
 use Core\Controllers\BaseController;
 use Psr\Http\Message\ResponseInterface;
-use App\Services\Validation\TestValidator;
 use Psr\Http\Message\ServerRequestInterface;
 
-class LoginController extends BaseController
+class JWTController extends BaseController
 {
      /**
      * Login
