@@ -18,9 +18,9 @@ interface IMiddlewareCollection
      * Get middleware
      *
      * @param string $name
-     * @return IMiddleware|bool
+     * @return mixed
      */
-    public function get(string $name) : IMiddleware|bool;
+    public function get(string $name) : mixed;
     /**
      * Get all middleware in collection
      *

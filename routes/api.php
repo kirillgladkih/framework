@@ -25,13 +25,13 @@ $routeCollection = new RouteCollection;
  */
 
 $routeCollection->get("/api/test/", [Controller::class, "index"])
-    // ->middleware(["jwt"]);
+    ->middleware(["jwt-auth"])
     // ->tokens(["id" => "[0-9]"])
     // ->middleware([Exemple::class, Exemple2::class])
 ;
 
 $routeCollection->post("/api/test/", [Controller::class, "store"]);
 
-$routeCollection->post("/api/login", [JWTController::class, "login"]);
+$routeCollection->post("/api/jwt/login", [JWTController::class, "login"]);
 
 return $routeCollection;

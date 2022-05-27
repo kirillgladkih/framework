@@ -3,8 +3,7 @@
 namespace App\Controllers\Auth\JWT;
 
 use App\Repository\Bitrix\Table\UserRepository;
-use App\Services\Auth\Authentication;
-use App\Services\Auth\JWT\JWT;
+use App\Services\Auth\Providers\JwtAuthProvider;
 use App\Services\Validation\Auth\LoginValidator;
 use Core\Controllers\BaseController;
 use Psr\Http\Message\ResponseInterface;
@@ -27,7 +26,7 @@ class JWTController extends BaseController
         $requestData = $validator->run($request)
             ->getParsedBody();
 
-        $result = Authentication::attempt(
+        $result = JwtAuthProvider::attempt(
             $requestData["login"],
             $request->getParsedBody()["password"]
         );
@@ -36,13 +35,13 @@ class JWTController extends BaseController
 
         $this->messages["auth"] = "failed";
 
-        if($result){
+         if($result){
 
             $this->messages["auth"] = "success";
 
             $user = $repository->where(["LOGIN" => $requestData["login"]]);
 
-            $response = JWT::token($user);
+            $response = JwtAuthProvider::getToken($user);
 
         }
 

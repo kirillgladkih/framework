@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Services\Auth\Providers\AuthProvider;
 use App\Services\Auth\JWT\JWT;
 use Core\Controllers\BaseController;
 use Psr\Http\Message\ResponseInterface;
@@ -25,7 +26,9 @@ class Controller extends BaseController
      */
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        dd(JWT::decode($request->getHeader("jwt")[0]));
+        $userID = AuthProvider::user()->id();
+
+        return $this->jsonResponse($userID);
     }
 
     public function store(ServerRequestInterface $request): ResponseInterface

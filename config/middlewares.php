@@ -3,7 +3,11 @@
  * ЭТО КОНФИГ ПОСРЕДНИКОВ
  * КЛЮЧ УКАЗЫВАЕТСЯ В РОУТАХ
  */
+
+use App\Middleware\Jwt;
+
 return [
-    "test" => \App\Middleware\Exemple::class,
-    "jwt" => \App\Middleware\Jwt::class
+    "jwt-auth" => [
+        Jwt::class
+    ]
 ];

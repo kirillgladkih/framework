@@ -5,27 +5,21 @@ namespace App\Services\Auth\Interfaces;
 interface IUser
 {
     /**
-     * Get login
-     *
-     * @return string
-     */
-    public function login(): string;
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function email(): string;
-    /**
      * Get user id
      *
      * @return integer
      */
     public function id(): int;
     /**
-     * Auth user
+     * Get user email
      *
-     * @return boolean
+     * @return string
      */
-    public function auth(): bool;
+    public function email(): string;
+    /**
+     * Get user login
+     *
+     * @return string
+     */
+    public function login(): string;
 }

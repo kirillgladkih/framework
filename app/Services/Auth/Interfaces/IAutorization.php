@@ -2,7 +2,7 @@
 
 namespace App\Services\Auth\Interfaces;
 
-interface IAuthorization
+interface IAutorization
 {
     /**
      * Authorize

@@ -91,8 +91,16 @@ use Core\Resolver\IResolver;
             /**
              * ИЩЕТ ПОСРЕДНИКОВ, ДОБАВЛЯЕТ В ОЧЕРЕДЬ НА ОБРАБОТКУ
              */
-            foreach($route->getMiddlewareCollection()->all() as $item)
-                $this->stak[] = [$item, "handle"];
+            foreach($route->getMiddlewareCollection()->all() as $item){
+                if(is_array($item)){
+                    foreach ($item as $subItem){
+                        $this->stak[] = [$subItem, "handle"];
+                    }
+                }else{
+                    $this->stak[] = [$item, "handle"];
+                }
+            }
+
             /**
              * В КОНЕЦ ОЧЕРЕДИ ДОБАВЛЯЕМ НАШ КОНТРОЛЛЕР
              */

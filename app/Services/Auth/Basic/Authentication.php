@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\Auth;
+namespace App\Services\Auth\Basic;
 
 use App\Entities\Table\UserTable;
-use App\Services\Auth\Interfaces\IAuthentication;
 use Bitrix\Main\Security\Password;
+use App\Services\Auth\Interfaces\IAuthentication;
 
 class Authentication implements IAuthentication
 {
