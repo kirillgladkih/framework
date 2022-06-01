@@ -89,15 +89,29 @@ abstract class Model implements IModel
      */
     public function withRelations()
     {
-        $modelActions = new ModelActions($this);
+        foreach($this->relations as $map => $relation){
 
-        foreach($this->relations as $map => $relationIds){
+            $model = new $relation["model"];
 
-            if(!$this->$map instanceof IModelCollection)
-                $this->$map = new ModelCollection();
+            $actions = new ModelActions($model);
 
-            foreach ($relationIds as $relationId)
-                $this->$map->push($relationId, $modelActions->byId($relationId));
+            if(!is_array($relation["id"]))
+                $this->$map = $actions->byId($relation["id"]);
+
+            if(is_array($relation["id"])){
+
+                if(!$this->$map instanceof IModelCollection)
+                    $this->$map = new ModelCollection();
+
+                foreach($relation["id"] as $id){
+
+                    $model = $actions->byId($id);
+
+                    $this->$map->push($id, $model);
+
+                }
+
+            }
 
         }
 
@@ -130,22 +144,32 @@ abstract class Model implements IModel
              */
             if(!isset($properties[$key]))
                 continue;
+
             if($properties[$key]["PROPERTY_TYPE"] == "E"){
 
-                if(!$properties[$key]["VALUE"])
+                if(!$properties[$key]["VALUE"] ||
+                    !isset($this->relations()[$map]))
                     continue;
 
                 $relationsIds = $properties[$key]["VALUE"];
 
-                $this->relations[$map] = $relationsIds;
+                $this->relations[$map] = [
+                    "id" => $relationsIds,
+                    "model" => $this->relations()[$map]
+                ];
             }
 
         }
 
         foreach($this->getFieldsMap() as $key => $map)
             $this->bindValue($map, $fields[$key] ?? null);
-
     }
+    /**
+     * Relations
+     *
+     * @return array
+     */
+    abstract protected function relations(): array;
     /**
      * Bootstrap
      *

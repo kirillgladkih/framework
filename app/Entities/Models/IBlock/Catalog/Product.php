@@ -4,7 +4,7 @@ namespace App\Entities\Models\IBlock\Catalog;
 
 use App\Entities\Models\IBlock\AProductModel;
 
-class Wheel extends AProductModel
+class Product extends AProductModel
 {
      /**
      * Fields map
@@ -25,6 +25,6 @@ class Wheel extends AProductModel
      */
     public function tableName(): string
     {
-        return 24;
+        return 23;
     }
 }

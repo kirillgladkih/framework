@@ -3,9 +3,11 @@
 namespace App\Entities\Models\IBlock\Constructor;
 
 use App\Entities\Models\IBlock\AConstructorModel;
+use App\Entities\Models\IBlock\Catalog\Product;
 
-class Setting extends AConstructorModel
+class Configuration extends AConstructorModel
 {
+    public $products;
      /**
      * Fields map
      *
@@ -17,7 +19,9 @@ class Setting extends AConstructorModel
      *
      * @var array
      */
-    protected static array $propMap = [];
+    protected static array $propMap = [
+        "PRODUCTS" => "products"
+    ];
     /**
      * Get Iblock id
      *
@@ -26,5 +30,16 @@ class Setting extends AConstructorModel
     public function tableName(): string
     {
         return 15;
+    }
+    /**
+     * Relations
+     *
+     * @return array
+     */
+    protected function relations(): array
+    {
+        return [
+            "products" => Product::class
+        ];
     }
 }

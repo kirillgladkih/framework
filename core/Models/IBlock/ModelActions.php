@@ -43,11 +43,10 @@ class ModelActions implements IModelActions
     public function byId(int $id): Model
     {
         $filter = [
-            "ID" => $id,
-            "IBLOCK_ID" => $this->model->tableName()
+            "ID" => "$id",
         ];
 
-        $element = $this->listIterator($filter)
+        $element = $this->element($filter)
             ->GetNextElement();
 
         return new $this->modelClass($element);
@@ -117,7 +116,7 @@ class ModelActions implements IModelActions
     private function defaultFilter(): array
     {
         return [
-            "IBLOCK_ID" => $this->model->tableName()
+            // "IBLOCK_ID" => $this->model->tableName()
         ];
     }
     /**
@@ -178,8 +177,34 @@ class ModelActions implements IModelActions
         mixed $groupBy = false
     ): \CIBlockResult {
 
-
         $filter = array_merge($filter, $this->defaultFilter());
+        $select = array_merge($filter, $this->defaultSelect());
+
+        return \CIBlockElement::GetList(
+            $order,
+            $filter,
+            $groupBy,
+            $navStartParams,
+            $select
+        );
+    }
+    /**
+     * Get list iterator
+     *
+     * @param array $filter
+     * @param array $select
+     * @param mixed $navStartParams
+     * @param array $order
+     * @param mixed $groupBy
+     * @return \CIBlockResult
+     */
+    protected function element(
+        array $filter,
+        array $select = [],
+        mixed $navStartParams = false,
+        array $order = [],
+        mixed $groupBy = false
+    ): \CIBlockResult {
 
         $select = array_merge($filter, $this->defaultSelect());
 

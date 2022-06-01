@@ -2,7 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Entities\Models\IBlock\Catalog\Wheel;
+use App\Entities\Models\IBlock\Catalog\Product;
+use App\Entities\Models\IBlock\Constructor\Element;
 use Core\Controllers\BaseController;
 use Psr\Http\Message\ResponseInterface;
 use App\Services\Validation\TestValidator;
@@ -27,13 +28,12 @@ class Controller extends BaseController
     public function index(ServerRequestInterface $request): ResponseInterface
     {
         $modelActions = new ModelActions(
-            new Wheel()
+            new Element()
         );
 
-        $res = $modelActions->byId(91);
+        $res = $modelActions->byId(104)->withRelations();
 
-        $res = $res->withRelations()
-            ->get();
+        $res = $res->configuration->withRelations()->toArray();
 
         dd($res);
     }

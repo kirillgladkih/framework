@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Bitrix;
+namespace App\Repository\Bitrix\Table;
 
 use App\Repository\Interfaces\IRepository;
 

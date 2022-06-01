@@ -132,4 +132,15 @@ abstract class AProductModel extends Model
 
         return $propMap;
     }
+    /**
+     * Relations
+     *
+     * @return array
+     */
+    protected function relations(): array
+    {
+        return [
+
+        ];
+    }
 }

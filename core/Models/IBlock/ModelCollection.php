@@ -10,7 +10,7 @@ class ModelCollection implements IModelCollection
     /**
      * IModel collection
      *
-     * @var IModel[]
+     * @var Model[]
      */
     protected array $collection = [];
     /**
@@ -32,6 +32,18 @@ class ModelCollection implements IModelCollection
     public function delete(string $key)
     {
         unset($this->collection[$key]);
+    }
+    /**
+     * with Relations
+     *
+     * @return ModelCollection
+     */
+    public function withRelations(): ModelCollection
+    {
+        foreach($this->collection as $item)
+            $item->withRelations();
+
+        return clone $this;
     }
     /**
      * Get model collection

@@ -107,4 +107,15 @@ abstract class AConstructorModel extends Model
 
         return $propMap;
     }
+    /**
+     * Relations
+     *
+     * @return array
+     */
+    protected function relations(): array
+    {
+        return [
+
+        ];
+    }
 }
