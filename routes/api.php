@@ -25,7 +25,7 @@ $routeCollection = new RouteCollection;
  */
 
 $routeCollection->get("/api/test/", [Controller::class, "index"])
-    ->middleware(["jwt-auth"])
+    // ->middleware(["jwt-auth"])
     // ->tokens(["id" => "[0-9]"])
     // ->middleware([Exemple::class, Exemple2::class])
 ;

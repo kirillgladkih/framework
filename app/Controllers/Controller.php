@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 
-use App\Services\Auth\Providers\AuthProvider;
-use App\Services\Auth\JWT\JWT;
+use App\Entities\Models\IBlock\Catalog\Wheel;
 use Core\Controllers\BaseController;
 use Psr\Http\Message\ResponseInterface;
 use App\Services\Validation\TestValidator;
+use Core\Models\IBlock\ModelActions;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -26,9 +26,16 @@ class Controller extends BaseController
      */
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        $userID = AuthProvider::user()->id();
+        $modelActions = new ModelActions(
+            new Wheel()
+        );
 
-        return $this->jsonResponse($userID);
+        $res = $modelActions->byId(91);
+
+        $res = $res->withRelations()
+            ->get();
+
+        dd($res);
     }
 
     public function store(ServerRequestInterface $request): ResponseInterface
