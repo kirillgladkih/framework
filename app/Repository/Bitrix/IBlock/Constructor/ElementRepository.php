@@ -10,10 +10,6 @@ class ElementRepository extends ARepository
 {
     protected function init()
     {
-        $model = new Element();
 
-        $this->actionClass = new ModelActions(
-            $model
-        );
     }
 }

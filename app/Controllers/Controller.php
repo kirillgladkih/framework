@@ -28,12 +28,7 @@ class Controller extends BaseController
      */
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        // $res = $modelActions->;
-
-        $res = Wheel::all();
-        // $res = $res->configuration->withRelations()->get();
-
-        dd($res->get());
+        dd(1);
     }
 
     public function store(ServerRequestInterface $request): ResponseInterface
