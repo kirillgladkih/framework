@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Entities\Models\IBlock\Catalog\Wheel;
 use App\Helpers\IBlockHelper;
+use App\Repository\Bitrix\IBlock\Constructor\ConstructorRepository;
 use App\Services\Constructor\Constructor;
 use App\Services\Constructor\ConstructorFactory;
 use App\Services\Constructor\Interfaces\IConstructor;
@@ -14,54 +16,18 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ConstructorController extends BaseController
 {
-    public function show(ServerRequestInterface $request): ResponseInterface
+    /**
+     * Undocumented function
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
+    public function index(ServerRequestInterface $request): ResponseInterface
     {
-        $iblockHelper = new IBlockHelper();
+        $repository = new ConstructorRepository();
 
-        $product = $iblockHelper->byId($request->getAttribute("id"));
+        $result = $repository->all();
 
-        if(Cnf::application("PRODUCT_IBLOCK") == $product["fields"]["IBLOCK_ID"]){
-
-            $constructor = ConstructorFactory::session(
-                $request->getAttribute("id")
-            );
-
-            $result["items"] = $constructor->collection()->all();
-
-            $result["sum"] = $constructor->sum();
-        }
-
-        return $this->jsonResponse($result ?? false);
-    }
-
-    public function check(ServerRequestInterface $request): ResponseInterface
-    {
-        $iblockHelper = new IBlockHelper();
-
-        $product = $iblockHelper->byId($request->getAttribute("id"));
-
-        if(Cnf::application("PRODUCT_IBLOCK") == $product["fields"]["IBLOCK_ID"]){
-
-            $constructor = ConstructorFactory::session(
-                $request->getAttribute("id")
-            );
-
-            $item = $constructor->collection()
-                ->get($request->getParsedBody()["itemId"] ?? 0);
-
-            if($item["main"] == false && $item["basic"] == false){
-
-                $item["checked"] = $request->getParsedBody()["checked"];
-
-                $constructor->collection()->replace($item["id"], $item);
-
-                $result["items"] = $constructor->collection()->all();
-
-                $result["sum"] = $constructor->sum();
-            }
-
-        }
-
-        return $this->jsonResponse($result ?? false);
+        return $this->jsonResponse($result);
     }
 }

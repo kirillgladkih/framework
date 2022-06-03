@@ -3,15 +3,14 @@
 namespace App\Entities\Models\IBlock;
 
 use Core\Models\IBlock\Model;
+use App\Entities\Models\IBlock\Catalog\Wheel;
+use App\Entities\Models\IBlock\Catalog\Trailer;
+use App\Entities\Models\IBlock\Catalog\Material;
+use App\Entities\Models\IBlock\Catalog\Suspension;
 
 abstract class AProductModel extends Model
 {
-    /**
-     * ID
-     *
-     * @var integer
-     */
-    public int $id;
+    public $id;
     /**
      * Name
      *
@@ -129,5 +128,32 @@ abstract class AProductModel extends Model
         $propMap = array_merge($thisPropMap, static::$propMap);
 
         return $propMap;
+    }
+    /**
+     * Iblock
+     *
+     * @return void
+     */
+    public static function iblocks(): array
+    {
+        return [
+            Material::class => 22,
+            Suspension::class => 22,
+            Trailer::class => 25,
+            Wheel::class => 24
+        ];
+    }
+    /**
+     * Get table name
+     *
+     * @return string
+     */
+    public static function tableName(): string
+    {
+        $class = static::class;
+
+        $iblocks = static::iblocks();
+
+        return $iblocks[$class] ?? "";
     }
 }

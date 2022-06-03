@@ -21,13 +21,4 @@ class Configuration extends AConstructorModel
     protected static array $propMap = [
         "PRODUCTS" => "products"
     ];
-    /**
-     * Get Iblock id
-     *
-     * @return integer
-     */
-    public static function tableName(): string
-    {
-        return 15;
-    }
 }

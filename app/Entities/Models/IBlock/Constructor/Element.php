@@ -41,13 +41,4 @@ class Element extends AConstructorModel
         "PRODUCT" => "product",
         "CONFIGURATION" => "configuration"
     ];
-    /**
-     * Get Iblock id
-     *
-     * @return integer
-     */
-    public static function tableName(): string
-    {
-        return 16;
-    }
 }

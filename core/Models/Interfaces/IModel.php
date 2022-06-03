@@ -10,5 +10,4 @@ interface IModel
      * @return string
      */
     public static function tableName(): string;
-
 }

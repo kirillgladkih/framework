@@ -18,13 +18,4 @@ class Material extends AProductModel
      * @var array
      */
     protected static array $propMap = [];
-    /**
-     * Get Iblock id
-     *
-     * @return integer
-     */
-    public static function tableName(): string
-    {
-        return 22;
-    }
 }

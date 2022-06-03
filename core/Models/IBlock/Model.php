@@ -2,8 +2,7 @@
 
 namespace Core\Models\IBlock;
 
-use _CIBElement;
-use Bitrix\Iblock\Copy\Implement\Iblock;
+use Bitrix\Iblock\ElementTable;
 use Core\Models\Interfaces\IModel;
 use CDBResult;
 
@@ -22,6 +21,12 @@ abstract class Model implements IModel
      * @var callable
      */
     protected $bindCallback;
+    /**
+     * Relations
+     *
+     * @var array
+     */
+    protected array $relations = [];
     /**
      * Undocumented variable
      *
@@ -44,12 +49,15 @@ abstract class Model implements IModel
      *
      * @return Model
      */
-    public static function all(): Model
+    public static function all(array $filter = []): Model
     {
         $result = IBlockActions::listElement(
-            [
+            array_merge(
+                [
                 "IBLOCK_ID" => static::tableName()
-            ]
+                ],
+                $filter
+            )
         );
 
         $model = new static($result);
@@ -117,6 +125,9 @@ abstract class Model implements IModel
     protected function bind()
     {
         $props = $this->CDBResult->arIBlockAllProps;
+
+        $relations = [];
+
         /**
          * Bind properties
          */
@@ -128,7 +139,25 @@ abstract class Model implements IModel
 
                     $element[$prop["CODE"]] =  $prop;
 
-                    $element[$prop["CODE"]]["VALUE"] =  $element["~PROPERTY_".$prop["ID"]];
+                    $value = $element["~PROPERTY_".$prop["ID"]];
+
+                    $element[$prop["CODE"]]["VALUE"] = $value;
+
+                    if($prop["PROPERTY_TYPE"] == "E"){
+
+                        if(!is_array($value))
+                            $value = [$value];
+
+                        foreach($value as $id){
+
+                            $elementTable = ElementTable::getById($id)->fetch();
+
+                            $relations[$id] = ["iblock_id" => $elementTable["IBLOCK_ID"]];
+
+                        }
+
+                    }
+
                 }
 
             }
@@ -144,8 +173,13 @@ abstract class Model implements IModel
             /**
              * Bind props
              */
-            foreach($this->getPropMap() as $key => $map)
+            foreach($this->getPropMap() as $key => $map){
                 $model->bindValue($map, $element[$key]["VALUE"] ?? null);
+            }
+            /**
+             * Bind relations
+             */
+            $model->bindValue("relations", $relations);
             /**
              * Bind callback
              */
@@ -155,6 +189,15 @@ abstract class Model implements IModel
              */
             $this->collection[] = $model;
         }
+    }
+    /**
+     * Get ralations
+     *
+     * @return array
+     */
+    public function getRelations(): array
+    {
+        return $this->relations;
     }
     /**
      * Get properties
@@ -188,4 +231,16 @@ abstract class Model implements IModel
     {
         $this->bindCallback = function(){};
     }
+    /**
+     * Iblocks id
+     * Model => iblockID
+     * @return array
+     */
+    abstract static function iblocks(): array;
+    /**
+     * Relations
+     * Map => Model
+     * @return array
+     */
+    abstract static function relations(): array;
 }

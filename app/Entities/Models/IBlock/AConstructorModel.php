@@ -2,6 +2,12 @@
 
 namespace App\Entities\Models\IBlock;
 
+use App\Entities\Models\IBlock\Catalog\Material;
+use App\Entities\Models\IBlock\Catalog\Suspension;
+use App\Entities\Models\IBlock\Catalog\Trailer;
+use App\Entities\Models\IBlock\Catalog\Wheel;
+use App\Entities\Models\IBlock\Constructor\Configuration;
+use App\Entities\Models\IBlock\Constructor\Element;
 use Core\Models\IBlock\Model;
 
 abstract class AConstructorModel extends Model
@@ -11,7 +17,7 @@ abstract class AConstructorModel extends Model
      *
      * @var integer
      */
-    public int $id;
+    public  $id;
     /**
      * Name
      *
@@ -55,9 +61,7 @@ abstract class AConstructorModel extends Model
      */
     protected function boot()
     {
-        $model = $this;
-
-        $this->bindCallback = function ($fields, $properties, $model){
+        $this->bindCallback = function ($fields, $model){
             /**
              * Bind section
              */
@@ -106,5 +110,41 @@ abstract class AConstructorModel extends Model
         $propMap = array_merge($thisPropMap, static::$propMap);
 
         return $propMap;
+    }
+    /**
+     * Get relations
+     *
+     * @return array
+     */
+    public static function relations(): array
+    {
+        return [
+            "product" => AProductModel::iblocks()
+        ];
+    }
+    /**
+     * Iblock
+     *
+     * @return void
+     */
+    public static function iblocks(): array
+    {
+        return [
+           Configuration::class => 15,
+           Element::class => 16
+        ];
+    }
+    /**
+     * Get table name
+     *
+     * @return string
+     */
+    public static function tableName(): string
+    {
+        $class = static::class;
+
+        $iblocks = static::iblocks();
+
+        return $iblocks[$class] ?? "";
     }
 }
