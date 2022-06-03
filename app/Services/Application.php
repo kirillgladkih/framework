@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use CModule;
 use Core\Response\Sender;
 use Core\Resolver\Resolver;
 use Core\Routing\Router\Router;
@@ -67,6 +68,8 @@ use Core\Resolver\IResolver;
          * $this->router->loadMap(include(__DIR__ . "/../../routes/api2.php"));
          */
         $this->router->loadMap(include(__DIR__ . "/../../routes/api.php"));
+
+        CModule::IncludeModule("iblock");
     }
     /**
      * Exec app

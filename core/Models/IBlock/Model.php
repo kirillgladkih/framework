@@ -3,56 +3,91 @@
 namespace Core\Models\IBlock;
 
 use _CIBElement;
-use Core\Models\IBlock\Interfaces\IModelActions;
+use Bitrix\Iblock\Copy\Implement\Iblock;
 use Core\Models\Interfaces\IModel;
-use Core\Models\Interfaces\IModelCollection;
+use CDBResult;
 
 abstract class Model implements IModel
 {
     use ModelTrait;
     /**
-     * Element
+     * CDBResult
      *
-     * @var _CIBElement|null
+     * @var CDBResult|null
      */
-    protected _CIBElement|null $element;
+    protected CDBResult|null $CDBResult;
     /**
-     * Relations
-     *
-     * @var array
-     */
-    protected array $relations = [];
-    /**
-     * Bind callback
+     * Bind extented function
      *
      * @var callable
      */
     protected $bindCallback;
     /**
-     * Init
+     * Undocumented variable
      *
-     * @param _CIBElement $element
-     * @return void
+     * @var array
      */
-    public function __construct(_CIBElement $element = null)
+    protected array $collection = [];
+    /**
+     * init
+     *
+     * @param CDBResult|null $result
+     */
+    public function __construct(CDBResult $result = null)
     {
-        $this->element = $element;
+        $this->CDBResult = $result;
 
         $this->boot();
-
-        if(!is_null($element))
-            $this->bind();
-
     }
     /**
-     * Get result
+     * Get all
      *
-     * @return IModel
+     * @return Model
      */
-    public function get(): IModel|bool
+    public static function all(): Model
     {
-        if(!is_null($this->element))
-            $result = clone $this;
+        $result = IBlockActions::listElement(
+            [
+                "IBLOCK_ID" => static::tableName()
+            ]
+        );
+
+        $model = new static($result);
+
+        return clone $model;
+    }
+    /**
+     * Get by id
+     *
+     * @param integer $id
+     * @return Model
+     */
+    public static function byId(int $id): Model
+    {
+        $result = IBlockActions::element(
+            [
+                "ID" => $id,
+                "IBLOCK_ID" => static::tableName()
+            ]
+        );
+
+        $model = new static($result);
+
+        return clone $model;
+    }
+    /**
+     * Get
+     *
+     * @return mixed
+     */
+    public function get(): mixed
+    {
+        $this->bind();
+
+        if(!empty($this->collection))
+            $result = count($this->collection) == 1
+                ? $this->collection[0]
+                : $this->collection;
 
         return $result ?? false;
     }
@@ -63,121 +98,72 @@ abstract class Model implements IModel
      */
     public function toArray(): array
     {
-        if(!is_null($this->element)){
+        $getResult = $this->get();
 
-            foreach($this->getMap() as $map){
+        if($getResult){
 
-                if($this->$map instanceof IModelCollection){
+            if(!is_array($getResult))
+                $getResult = [$getResult];
 
-                    $result[$map] = $this->$map->toArray();
 
-                }else{
+            foreach($getResult as $model)
+                $result[] = $model->getProperties();
 
-                    $result[$map] = $this->$map ?? null;
-
-                }
-
-            }
         }
 
         return $result ?? [];
     }
-    /**
-     * Bind relations
-     *
-     * @return Model
-     */
-    public function withRelations()
+
+    protected function bind()
     {
-        foreach($this->relations as $map => $relation){
+        $props = $this->CDBResult->arIBlockAllProps;
+        /**
+         * Bind properties
+         */
+        while ($element = $this->CDBResult->GetNext()){
 
-            $model = new $relation["model"];
+            foreach($props as $prop){
 
-            $actions = new ModelActions($model);
+                if(isset($element["~PROPERTY_".$prop["ID"]])){
 
-            if(!is_array($relation["id"]))
-                $this->$map = $actions->byId($relation["id"]);
+                    $element[$prop["CODE"]] =  $prop;
 
-            if(is_array($relation["id"])){
-
-                if(!$this->$map instanceof IModelCollection)
-                    $this->$map = new ModelCollection();
-
-                foreach($relation["id"] as $id){
-
-                    $model = $actions->byId($id);
-
-                    $this->$map->push($id, $model);
-
+                    $element[$prop["CODE"]]["VALUE"] =  $element["~PROPERTY_".$prop["ID"]];
                 }
 
             }
 
-        }
+            $model = new static;
 
-        return clone $this;
+            $bindCallback = $this->bindCallback;
+            /**
+             * Bind fields
+             */
+            foreach($this->getFieldsMap() as $key => $map)
+                $model->bindValue($map, $element[$key] ?? null);
+            /**
+             * Bind props
+             */
+            foreach($this->getPropMap() as $key => $map)
+                $model->bindValue($map, $element[$key]["VALUE"] ?? null);
+            /**
+             * Bind callback
+             */
+            $bindCallback($element, $model);
+            /**
+             * Add as collection
+             */
+            $this->collection[] = $model;
+        }
     }
     /**
-     * Bind to class properties
-     *
-     * @return void
-     */
-    protected function bind()
-    {
-        $properties = $this->element->GetProperties();
-
-        $fields = $this->element->GetFields();
-
-        $bindCallback = $this->bindCallback;
-        /**
-         * Bind callback
-         */
-        $bindCallback($fields, $properties, $this);
-
-        foreach($this->getPropMap() as $key => $map){
-            /**
-             * Bind value
-             */
-            $this->bindValue($map, $properties[$key]["VALUE"] ?? null);
-            /**
-             * Привязка к элементам инфоблока
-             */
-            if(!isset($properties[$key]))
-                continue;
-
-            if($properties[$key]["PROPERTY_TYPE"] == "E"){
-
-                if(!$properties[$key]["VALUE"] ||
-                    !isset($this->relations()[$map]))
-                    continue;
-
-                $relationsIds = $properties[$key]["VALUE"];
-
-                $this->relations[$map] = [
-                    "id" => $relationsIds,
-                    "model" => $this->relations()[$map]
-                ];
-            }
-
-        }
-
-        foreach($this->getFieldsMap() as $key => $map)
-            $this->bindValue($map, $fields[$key] ?? null);
-    }
-    /**
-     * Relations
+     * Get properties
      *
      * @return array
      */
-    abstract protected function relations(): array;
-    /**
-     * Bootstrap
-     *
-     * @return void
-     */
-    protected function boot()
+    public function getProperties(): array
     {
-
+        return $this->properties;
     }
     /**
      * Bind value
@@ -192,5 +178,14 @@ abstract class Model implements IModel
 
         if(property_exists($this, $map))
             $this->$map = $value;
+    }
+    /**
+     * Boot
+     *
+     * @return void
+     */
+    protected function boot()
+    {
+        $this->bindCallback = function(){};
     }
 }

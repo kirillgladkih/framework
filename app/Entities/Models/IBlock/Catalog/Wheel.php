@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Entities\Models\IBlock\Constructor;
+namespace App\Entities\Models\IBlock\Catalog;
 
-use App\Entities\Models\IBlock\AConstructorModel;
+use App\Entities\Models\IBlock\AProductModel;
 
-class Configuration extends AConstructorModel
+class Wheel extends AProductModel
 {
-    public $products;
      /**
      * Fields map
      *
@@ -18,9 +17,7 @@ class Configuration extends AConstructorModel
      *
      * @var array
      */
-    protected static array $propMap = [
-        "PRODUCTS" => "products"
-    ];
+    protected static array $propMap = [];
     /**
      * Get Iblock id
      *
@@ -28,6 +25,6 @@ class Configuration extends AConstructorModel
      */
     public static function tableName(): string
     {
-        return 15;
+        return 24;
     }
 }

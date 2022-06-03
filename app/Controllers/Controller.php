@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Entities\Models\IBlock\Catalog\Product;
+use App\Entities\Models\IBlock\Catalog\Wheel;
 use App\Entities\Models\IBlock\Constructor\Element;
 use Core\Controllers\BaseController;
 use Psr\Http\Message\ResponseInterface;
@@ -27,15 +28,12 @@ class Controller extends BaseController
      */
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        $modelActions = new ModelActions(
-            new Element()
-        );
+        // $res = $modelActions->;
 
-        $res = $modelActions->byId(104)->withRelations();
+        $res = Wheel::all();
+        // $res = $res->configuration->withRelations()->get();
 
-        $res = $res->configuration->withRelations()->toArray();
-
-        dd($res);
+        dd($res->get());
     }
 
     public function store(ServerRequestInterface $request): ResponseInterface

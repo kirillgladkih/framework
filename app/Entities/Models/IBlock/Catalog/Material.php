@@ -4,7 +4,7 @@ namespace App\Entities\Models\IBlock\Catalog;
 
 use App\Entities\Models\IBlock\AProductModel;
 
-class Product extends AProductModel
+class Material extends AProductModel
 {
      /**
      * Fields map
@@ -23,8 +23,8 @@ class Product extends AProductModel
      *
      * @return integer
      */
-    public function tableName(): string
+    public static function tableName(): string
     {
-        return 23;
+        return 22;
     }
 }

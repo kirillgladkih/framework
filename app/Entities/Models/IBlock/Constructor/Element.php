@@ -3,7 +3,6 @@
 namespace App\Entities\Models\IBlock\Constructor;
 
 use App\Entities\Models\IBlock\AConstructorModel;
-use App\Entities\Models\IBlock\Catalog\Product;
 
 class Element extends AConstructorModel
 {
@@ -19,12 +18,20 @@ class Element extends AConstructorModel
      * @var array
      */
     public $configuration;
+    /**
+     * Undocumented variable
+     *
+     * @var [type]
+     */
+    public $id;
      /**
      * Fields map
      *
      * @var array
      */
-    protected static array $fieldsMap = [];
+    protected static array $fieldsMap = [
+        "ID" => "id"
+    ];
     /**
      * Props map
      *
@@ -39,16 +46,8 @@ class Element extends AConstructorModel
      *
      * @return integer
      */
-    public function tableName(): string
+    public static function tableName(): string
     {
         return 16;
-    }
-
-    protected function relations(): array
-    {
-        return [
-            "product" => Product::class,
-            "configuration" => Configuration::class
-        ];
     }
 }

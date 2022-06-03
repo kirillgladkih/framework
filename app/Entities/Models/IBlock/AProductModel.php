@@ -67,9 +67,7 @@ abstract class AProductModel extends Model
      */
     protected function boot()
     {
-        $model = $this;
-
-        $this->bindCallback = function ($fields, $properties, $model){
+        $this->bindCallback = function ($fields, $model){
             /**
              * Price arrray
              */
@@ -131,16 +129,5 @@ abstract class AProductModel extends Model
         $propMap = array_merge($thisPropMap, static::$propMap);
 
         return $propMap;
-    }
-    /**
-     * Relations
-     *
-     * @return array
-     */
-    protected function relations(): array
-    {
-        return [
-
-        ];
     }
 }
