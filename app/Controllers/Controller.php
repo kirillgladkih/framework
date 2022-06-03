@@ -24,7 +24,7 @@ class Controller extends BaseController
      */
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->jsonResponse(["id" => $request->getAttribute("id")]);
+        dd(1);
     }
 
     public function store(ServerRequestInterface $request): ResponseInterface
@@ -33,10 +33,11 @@ class Controller extends BaseController
          * ПРИМЕР ВАЛИДАТОРА СМОТРЕТЬ app/Validation/TestValidator.php
          */
 
-        $validator = new TestValidator($request);
+        // $validator = new TestValidator($request);
 
-        $validator->make();
+        // $validator->make();
 
-        return $this->jsonResponse($validator->errors());
+        // return $this->jsonResponse($validator->errors());
+        dd(1);
     }
 }

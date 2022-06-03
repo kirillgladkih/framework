@@ -1,9 +1,12 @@
 <?php
 
 use App\Controllers\ConstructorController;
+use App\Controllers\Auth\JWT\JWTController;
+use App\Controllers\Auth\LoginController;
 use App\Controllers\Controller;
 use App\Controllers\ProductController;
 use App\Middleware\Exemple;
+use App\Services\Auth\JWT\JWT;
 use Core\Routing\Router\RouteCollection;
 
 $routeCollection = new RouteCollection;
@@ -23,10 +26,11 @@ $routeCollection = new RouteCollection;
  *
  */
 
-$routeCollection->get("/api/test/{id}", [Controller::class, "index"])
-    ->tokens(["id" => "[0-9]"])
+$routeCollection->get("/api/test/", [Controller::class, "index"])
+    // ->middleware(["jwt-auth"])
+    // ->tokens(["id" => "[0-9]"])
     // ->middleware([Exemple::class, Exemple2::class])
-    ;
+;
 
 $routeCollection->post("/api/test/", [Controller::class, "store"]);
 
@@ -49,5 +53,6 @@ $routeCollection->post("/api/constructor/{id}", [ConstructorController::class, "
 //         "id" => "[0-9]+",
 //         "itemId" => "[0-9]+"
 //     ]);
+$routeCollection->post("/api/jwt/login", [JWTController::class, "login"]);
 
 return $routeCollection;

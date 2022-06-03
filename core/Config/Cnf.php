@@ -10,4 +10,11 @@ class Cnf
 
         return $config[$key] ?? null;
     }
+
+    public static function auth(string $key): mixed
+    {
+        $config = include(__DIR__ . "/../../config/auth.php");
+
+        return $config[$key] ?? null;
+    }
 }

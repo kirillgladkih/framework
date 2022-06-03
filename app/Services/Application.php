@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use CModule;
 use Core\Response\Sender;
 use Core\Resolver\Resolver;
 use Core\Routing\Router\Router;
@@ -67,6 +68,8 @@ use Core\Resolver\IResolver;
          * $this->router->loadMap(include(__DIR__ . "/../../routes/api2.php"));
          */
         $this->router->loadMap(include(__DIR__ . "/../../routes/api.php"));
+
+        CModule::IncludeModule("iblock");
     }
     /**
      * Exec app
@@ -91,8 +94,16 @@ use Core\Resolver\IResolver;
             /**
              * ИЩЕТ ПОСРЕДНИКОВ, ДОБАВЛЯЕТ В ОЧЕРЕДЬ НА ОБРАБОТКУ
              */
-            foreach($route->getMiddlewareCollection()->all() as $item)
-                $this->stak[] = [$item, "handle"];
+            foreach($route->getMiddlewareCollection()->all() as $item){
+                if(is_array($item)){
+                    foreach ($item as $subItem){
+                        $this->stak[] = [$subItem, "handle"];
+                    }
+                }else{
+                    $this->stak[] = [$item, "handle"];
+                }
+            }
+
             /**
              * В КОНЕЦ ОЧЕРЕДИ ДОБАВЛЯЕМ НАШ КОНТРОЛЛЕР
              */
