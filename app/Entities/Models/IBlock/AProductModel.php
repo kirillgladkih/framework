@@ -102,7 +102,7 @@ abstract class AProductModel extends Model
      *
      * @return array
      */
-    public function getFieldsMap(): array
+    public static function getFieldsMap(): array
     {
         $thisFieldsMap = [
             "NAME" => "name",
@@ -121,13 +121,28 @@ abstract class AProductModel extends Model
      *
      * @return array
      */
-    public function getPropMap(): array
+    public static function getPropMap(): array
     {
         $thisPropMap = [];
 
         $propMap = array_merge($thisPropMap, static::$propMap);
 
         return $propMap;
+    }
+    /**
+     * Get relations
+     *
+     * @return array
+     */
+    public static function relations(): array
+    {
+        return [
+            "basic" => [
+                Material::class => 23,
+                Suspension::class => 22,
+                Wheel::class => 24
+            ]
+        ];
     }
     /**
      * Iblock
@@ -137,7 +152,7 @@ abstract class AProductModel extends Model
     public static function iblocks(): array
     {
         return [
-            Material::class => 22,
+            Material::class => 23,
             Suspension::class => 22,
             Trailer::class => 25,
             Wheel::class => 24

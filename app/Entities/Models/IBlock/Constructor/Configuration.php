@@ -6,19 +6,27 @@ use App\Entities\Models\IBlock\AConstructorModel;
 
 class Configuration extends AConstructorModel
 {
-    public $products;
+    /**
+     * Product
+     *
+     * @var [type]
+     */
+    public $product;
      /**
      * Fields map
      *
      * @var array
      */
-    protected static array $fieldsMap = [];
+    protected static array $fieldsMap = [
+        "ID" => "id"
+    ];
     /**
      * Props map
      *
      * @var array
      */
     protected static array $propMap = [
-        "PRODUCTS" => "products"
+        "ITEM" => "product",
     ];
+
 }

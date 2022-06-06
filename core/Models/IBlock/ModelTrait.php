@@ -11,6 +11,12 @@ trait ModelTrait
      */
     protected array $properties = [];
     /**
+     * Relations
+     *
+     * @var array
+     */
+    protected array $relations = [];
+    /**
      * init
      */
     public function __construct()
@@ -55,24 +61,47 @@ trait ModelTrait
      */
     private function getMap(): array
     {
-        $fieldsMap = array_values($this->getFieldsMap());
+        $fieldsMap = array_values(static::getFieldsMap());
 
-        $propMap = array_values($this->getPropMap());
+        $propMap = array_values(static::getPropMap());
 
         $map = array_merge($fieldsMap, $propMap);
 
         return $map;
+    }
+     /**
+     * Get ralations
+     *
+     * @return array
+     */
+    public function getRelations(): array
+    {
+        return $this->relations;
+    }
+    /**
+     * Get properties
+     *
+     * @return array
+     */
+    public function getProperties(): array
+    {
+        foreach($this->properties as $key => $prop){
+            if(!in_array($key, $this->denyProps))
+                $result[$key] = $prop;
+        }
+
+        return $result ?? [];
     }
     /**
      * Get fields map
      *
      * @return array
      */
-    abstract function getFieldsMap(): array;
+    abstract static function getFieldsMap(): array;
     /**
      * Get properies map
      *
      * @return array
      */
-    abstract function getPropMap(): array;
+    abstract static function getPropMap(): array;
 }

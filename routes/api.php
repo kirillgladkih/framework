@@ -41,17 +41,18 @@ $routeCollection->post("/api/test/", [Controller::class, "store"]);
 
 $routeCollection->get("/api/constructor/", [ConstructorController::class, "index"]);
 
+$routeCollection->get("/api/constructor/{id}", [ConstructorController::class, "show"])
+    ->tokens(["id" => "[0-9]+"]);
+
 // $routeCollection->post("/api/constructor/{id}", [ConstructorController::class, "check"])
 //     ->tokens(["id" => "[0-9]+"]);;
 
-// $routeCollection->get("/api/constructor/available/{id}", [ConstructorController::class, "available"])
-//     ->tokens(["id" => "[0-9]+"]);
 
 // $routeCollection->delete("/api/constructor/{id}/{itemId}", [ConstructorController::class, "delete"])
 //     ->tokens([
-//         "id" => "[0-9]+",
-//         "itemId" => "[0-9]+"
-//     ]);
-$routeCollection->post("/api/jwt/login", [JWTController::class, "login"]);
+    //         "id" => "[0-9]+",
+    //         "itemId" => "[0-9]+"
+    //     ]);
+    // $routeCollection->post("/api/jwt/login", [JWTController::class, "login"]);
 
-return $routeCollection;
+    return $routeCollection;

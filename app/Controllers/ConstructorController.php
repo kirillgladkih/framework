@@ -11,6 +11,7 @@ use App\Services\Constructor\Interfaces\IConstructor;
 use App\Services\Mapping\ConstructorMap;
 use Core\Config\Cnf;
 use Core\Controllers\BaseController;
+use Core\Request\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -29,5 +30,28 @@ class ConstructorController extends BaseController
         $result = $repository->all();
 
         return $this->jsonResponse($result);
+    }
+    /**
+     * Undocumented function
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
+    public function show(ServerRequestInterface $request): ResponseInterface
+    {
+        $repository = new ConstructorRepository();
+
+        $result = [];
+
+        if($id = $request->getAttribute("id")){
+
+            $result = $repository->detail($id);
+
+        }
+
+        if(empty($result))
+            throw new NotFoundException($request);
+
+        return $this->jsonResponse($result ?? []);
     }
 }

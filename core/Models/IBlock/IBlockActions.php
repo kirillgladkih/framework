@@ -46,7 +46,6 @@ class IBlockActions implements IModelActions
             "IBLOCK_SECTION_ID",
             "IBLOCK_NAME",
             "IBLOCK_CODE",
-            "PROPERTY_*"
         ];
 
         return $select;
@@ -69,9 +68,9 @@ class IBlockActions implements IModelActions
         mixed $groupBy = false
     ): \CDBResult {
 
-        $filter = array_merge($filter, static::defaultElementFilter());
+        $filter = array_unique(array_merge($filter, static::defaultElementFilter()));
 
-        $select = array_merge($filter, static::defaultElementSelect());
+        $select = array_unique(array_merge($select, static::defaultElementSelect()));
 
         return \CIBlockElement::GetList(
             $order,
@@ -99,7 +98,10 @@ class IBlockActions implements IModelActions
         mixed $groupBy = false
     ): \CDBResult {
 
-        $select = array_merge($select, static::defaultElementSelect());
+
+        $filter = array_unique(array_merge($filter, static::defaultElementFilter()));
+
+        $select = array_unique(array_merge($select, static::defaultElementSelect()));
 
         return \CIBlockElement::GetList(
             $order,
@@ -109,27 +111,4 @@ class IBlockActions implements IModelActions
             $select
         );
     }
-    // /**
-    //  * List prope
-    //  *
-    //  * @param array $filter
-    //  * @param array $order
-    //  * @return CDBResult
-    //  */
-    // public static function listProperty(array $filter, $order = []): CDBResult
-    // {
-    //     return \CIBlockProperty::GetList(
-    //       $order,
-    //       $filter
-    //     );
-    // }
-
-    // public static function property(mixed $id, int $iblockId = 0, string $iblockCode = ""): CDBResult
-    // {
-    //     return \CIBlockElement::GetProperty(
-    //         $id,
-    //         $iblockId,
-    //         !empty($iblockCode) ? $iblockCode : false
-    //     );
-    // }
 }

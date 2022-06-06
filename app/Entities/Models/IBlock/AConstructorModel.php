@@ -62,22 +62,22 @@ abstract class AConstructorModel extends Model
     protected function boot()
     {
         $this->bindCallback = function ($fields, $model){
-            /**
-             * Bind section
-             */
-            if($iblockSectionID = $fields["IBLOCK_SECTION_ID"]){
+            // /**
+            //  * Bind section
+            //  */
+            // if($iblockSectionID = $fields["IBLOCK_SECTION_ID"]){
 
-                $sectionArray = \CIBlockSection::GetByID($iblockSectionID)
-                    ->Fetch();
+            //     $sectionArray = \CIBlockSection::GetByID($iblockSectionID)
+            //         ->Fetch();
 
-                $model->bindValue("section", $sectionArray["NAME"] ?? "");
+            //     $model->bindValue("section", $sectionArray["NAME"] ?? "");
 
 
-            }else{
+            // }else{
 
-                $model->bindValue("section", $fields["IBLOCK_NAME"] ?? "");
+            //     $model->bindValue("section", $fields["IBLOCK_NAME"] ?? "");
 
-            }
+            // }
         };
     }
     /**
@@ -85,16 +85,11 @@ abstract class AConstructorModel extends Model
      *
      * @return array
      */
-    public function getFieldsMap(): array
+    public static function getPropMap(): array
     {
-        $thisFieldsMap = [
-            "NAME" => "name",
-            "ID" => "id",
-            "ACTIVE" => "active",
-            "CODE" => "code"
-        ];
+        $thisProps = [];
 
-        $fieldsMap = array_merge($thisFieldsMap, static::$fieldsMap);
+        $fieldsMap = array_merge($thisProps, static::$propMap);
 
         return $fieldsMap;
     }
@@ -103,13 +98,18 @@ abstract class AConstructorModel extends Model
      *
      * @return array
      */
-    public function getPropMap(): array
+    public static function getFieldsMap(): array
     {
-        $thisPropMap = [];
+        $thisFields = [
+            "NAME" => "name",
+            "ID" => "id",
+            "ACTIVE" => "active",
+            "CODE" => "code"
+        ];
 
-        $propMap = array_merge($thisPropMap, static::$propMap);
+        $fieldsMap = array_merge($thisFields, static::$fieldsMap);
 
-        return $propMap;
+        return $fieldsMap;
     }
     /**
      * Get relations
@@ -119,7 +119,10 @@ abstract class AConstructorModel extends Model
     public static function relations(): array
     {
         return [
-            "product" => AProductModel::iblocks()
+            "product" => AProductModel::iblocks(),
+            "configuration" => [
+                Configuration::class => 15
+            ]
         ];
     }
     /**

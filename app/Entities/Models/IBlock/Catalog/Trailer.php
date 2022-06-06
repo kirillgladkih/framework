@@ -6,6 +6,7 @@ use App\Entities\Models\IBlock\AProductModel;
 
 class Trailer extends AProductModel
 {
+    public $basic;
      /**
      * Fields map
      *
@@ -17,5 +18,7 @@ class Trailer extends AProductModel
      *
      * @var array
      */
-    protected static array $propMap = [];
+    protected static array $propMap = [
+        "BASIC" => "basic"
+    ];
 }
